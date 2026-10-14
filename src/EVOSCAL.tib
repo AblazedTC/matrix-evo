@@ -1,0 +1,4 @@
+// EVOSCAL - save the number P/Q as the 1x1 result R
+{1,1}→dim([I]):{1,1}→dim([J])
+P→[I](1,1):Q→[J](1,1)
+1→M:1→N:3→Z:prgmEVOSAVE

@@ -1,0 +1,20 @@
+// EVOVLD - load vectors: u = A into [I]/[J] and v = B into [G]/[H], both as columns.
+// A row or column matrix counts as a vector.  M = length of u, N = 1.
+// Out: Z=1 ok.  Z=0: A is not a vector.  Z=2: B is not a vector of the same length
+// (only checked when Y=1).  Clobbers: K
+0→V:1→Z
+If min(ʟMXA(1),ʟMXA(2))≠1:0→Z
+If Y=1 and (min(ʟMXB(1),ʟMXB(2))≠1 or ʟMXB(1)ʟMXB(2)≠ʟMXA(1)ʟMXA(2)) and Z:2→Z
+If Z=1:Then
+ʟMXA(1)ʟMXA(2)→M:1→N
+max(ʟMXA(3),ʟMXB(3)(Y=1))→V
+{M,1}→dim([I]):{M,1}→dim([J])
+{M,1}→dim([G]):{M,1}→dim([H])
+For(K,1,M)
+ʟMXA(2+2K)→[I](K,1):ʟMXA(3+2K)→[J](K,1)
+0→[G](K,1):1→[H](K,1)
+If Y=1:Then
+ʟMXB(2+2K)→[G](K,1):ʟMXB(3+2K)→[H](K,1)
+End
+End
+End

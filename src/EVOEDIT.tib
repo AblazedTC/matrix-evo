@@ -1,0 +1,88 @@
+// EVOEDIT - matrix editor.  Edits a copy in the workspace; SAVE commits,
+// CANCEL leaves the stored matrix untouched.  T = slot being edited.
+Menu("EDIT WHICH MATRIX?","A",1,"B",2,"R (RESULT)",3,"BACK",0)
+Lbl 1
+1→T:Goto S
+Lbl 2
+2→T:Goto S
+Lbl 3
+3→T:Goto S
+Lbl 0
+Return
+Lbl S
+0→V:T→Z:prgmEVOLOAD
+Lbl E
+"EDIT "+sub("ABR",T,1)+"  "+toString(M)+"X"+toString(N)→Str0
+"(NOT SAVED YET)"→Str8
+"ENTER:EDIT MENU"→Str7
+prgmEVODISP
+Menu(Str0,"ENTER ALL CELLS",4,"EDIT ONE CELL",5,"RESIZE",6,"MAKE IDENTITY",7,"MAKE ZERO",8,"COPY FROM A/B/R",9,"SAVE",SV,"CANCEL",0)
+Lbl 4
+For(I,1,M)
+For(J,1,N)
+prgmEVOCELL
+End
+End
+Goto E
+Lbl 5
+0→Z
+While not(Z)
+Input "ROW? ",Str1
+1→X:M→Y:prgmEVOINT
+End
+P→I
+0→Z
+While not(Z)
+Input "COLUMN? ",Str1
+1→X:N→Y:prgmEVOINT
+End
+P→J
+prgmEVOCELL
+Goto E
+Lbl 6
+0→Z
+While not(Z)
+Input "ROWS (1-6)? ",Str1
+1→X:6→Y:prgmEVOINT
+End
+P→M
+0→Z
+While not(Z)
+Input "COLUMNS (1-6)? ",Str1
+1→X:6→Y:prgmEVOINT
+End
+P→N
+{M,N}→dim([I]):{M,N}→dim([J])
+For(I,1,M)
+For(J,1,N)
+If [J](I,J)=0:Then
+0→[I](I,J):1→[J](I,J)
+End
+End
+End
+Goto E
+Lbl 7
+0→Z
+While not(Z)
+Input "SIZE N (1-6)? ",Str1
+1→X:6→Y:prgmEVOINT
+End
+P→M:P→N:0→V
+identity(M)→[I]
+{M,M}→dim([J]):Fill(1,[J])
+Goto E
+Lbl 8
+Fill(0,[I]):Fill(1,[J]):0→V
+Goto E
+Lbl 9
+prgmEVOPICK
+If Z:Then
+0→V:prgmEVOLOAD
+End
+Goto E
+Lbl SV
+T→Z:prgmEVOSAVE
+ClrHome
+Disp "SAVED AS "+sub("ABR",T,1)
+Pause
+Return

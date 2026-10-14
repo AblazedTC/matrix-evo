@@ -1,0 +1,37 @@
+MATRIX EVO 1.0 - INSTALLATION
+=============================
+
+You need
+  * a TI-84 Evo and its USB cable
+  * TI Connect Evo  (https://connectevo.ti.com/)
+  * the files *.8xp2 from this package (52 programs, about 51 KB)
+
+Install
+  1. Connect the calculator and open TI Connect Evo.
+  2. Send ALL of the .8xp2 files to the calculator (drag them onto the
+     calculator in TI Connect Evo, or use its "send to calculator" action).
+     MATRIXEV calls the EVO... programs, so every file is required.
+     Leave them in RAM (do not archive them).
+  3. Check the calculator: PRGM shows MATRIXEV, EVOTEST and the EVO... programs.
+
+First run: device check (recommended)
+  4. PRGM > EVOTEST > ENTER.  All six checks should say PASS, then a "+" should
+     appear in each corner of the screen, a small menu appears (pick either
+     item), and finally pressing keys shows their codes. Expected codes:
+       ENTER 105   CLEAR 45   LEFT 24   RIGHT 26   UP 25   DOWN 34
+     Press 0 to finish.
+     If anything fails or the codes differ, see COMPATIBILITY.txt before
+     relying on Matrix Evo, and please report it.
+
+Use
+  5. PRGM > MATRIXEV > ENTER.  Start with 6:MATRIX EDITOR to enter A and B.
+     See USER_GUIDE for every menu.
+
+Remove
+  2nd MEM > Mem Management > Prgm: delete MATRIXEV, EVOTEST and all EVO...
+  programs.  Then List: delete MXA MXB MXR MXSET MXW MXST MXLOG MXPR MXO
+  MXV MXDT.  Matrices [G]-[J] are scratch space and can be deleted too.
+
+Rebuilding from source (optional, on a computer)
+  node tools/build.mjs          (needs Node.js 18+, no other dependencies)
+  The .8xp2 files appear in dist/ together with SHA256SUMS.

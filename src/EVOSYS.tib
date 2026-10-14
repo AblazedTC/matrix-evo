@@ -1,0 +1,41 @@
+// EVOSYS - Chapter 1 linear systems menu (A = coefficients, B = right-hand side)
+Lbl M
+Menu("LINEAR SYSTEMS AX=B","SOLVE AX=B",1,"CONSISTENCY TEST",2,"HOMOGENEOUS AX=0",3,"CRAMER'S RULE",4,"BACK",0)
+Lbl 1
+2→F:"SOLVE"→Str6:0→Y
+prgmEVOAUG
+If W:Goto D
+If N-ʟMXA(2)≠1:Goto D
+prgmEVOSOLV
+Goto M
+Lbl 2
+0→Y:prgmEVOAUG
+If W:Goto D
+If N-ʟMXA(2)≠1:Goto D
+0→L:2→F:N→E
+prgmEVOROW
+ClrHome
+"RANK A = "+toString(U-(ʟMXPR(N)≠0))→Str1
+"RANK [A:B] = "+toString(U)→Str2
+If ʟMXPR(N):Then
+Disp "INCONSISTENT",Str1,Str2,"B IS NOT A COMBINATION","OF THE COLUMNS OF A"
+Else
+Disp "CONSISTENT",Str1,Str2,"B IS IN THE SPAN OF","THE COLUMNS OF A"
+End
+If V:Disp "(APPROXIMATE)"
+Pause
+Goto M
+Lbl 3
+2→F:"AX=0"→Str6:1→Y
+prgmEVOAUG
+prgmEVOSOLV
+Goto M
+Lbl 4
+prgmEVOCRAM
+Goto M
+Lbl D
+ClrHome
+Disp "DIMENSION MISMATCH","B MUST BE A COLUMN","WITH AS MANY ROWS AS A"
+Pause
+Goto M
+Lbl 0

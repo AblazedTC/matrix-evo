@@ -1,0 +1,49 @@
+// EVOCRAM - Cramer's rule: x_i = det(A_i)/det(A), A_i = A with column i replaced by B
+0→V:1→Z:prgmEVOLOAD
+If M≠N or ʟMXB(1)≠N or ʟMXB(2)≠1:Then
+ClrHome
+Disp "CRAMER'S RULE NEEDS","A: SQUARE N X N","B: COLUMN N X 1"
+Pause
+Return
+End
+prgmEVODETC
+If P=0:Then
+ClrHome
+Disp "DET(A) = 0","CRAMER'S RULE DOES","NOT APPLY (A IS","NOT INVERTIBLE)"
+Pause
+Return
+End
+{P,Q}→ʟMXDT
+ʟMXA(1)→N
+{N,2}→dim([G]):{N,2}→dim([H])
+For(T,1,N)
+1→Z:prgmEVOLOAD
+For(I,1,N)
+ʟMXB(2+2I)→[I](I,T):ʟMXB(3+2I)→[J](I,T)
+End
+max(V,ʟMXB(3))→V
+prgmEVODETC
+P→[G](T,1):Q→[H](T,1)
+ʟMXDT(1)→R:ʟMXDT(2)→S:4→O:prgmEVOFRAC
+P→[G](T,2):Q→[H](T,2)
+End
+ʟMXA(1)→N
+ClrHome
+ʟMXDT(1)→P:ʟMXDT(2)→Q:prgmEVOFMT
+Disp "DET(A) = "+Str9
+For(T,1,N)
+[G](T,1)→P:[H](T,1)→Q:prgmEVOFMT
+Str9→Str1
+[G](T,2)→P:[H](T,2)→Q:prgmEVOFMT
+Disp "X"+toString(T)+" = "+Str1+"/DET = "+Str9
+End
+If V:Disp "(APPROXIMATE)"
+Pause
+For(T,1,N)
+[G](T,2)→[G](T,1):[H](T,2)→[H](T,1)
+End
+{N,1}→dim([G]):{N,1}→dim([H])
+[G]→[I]:[H]→[J]:N→M:1→N
+"CRAMER'S RULE: X"→Str0
+"XI = DET(AI) / DET(A)"→Str8
+prgmEVORES

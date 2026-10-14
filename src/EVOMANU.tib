@@ -1,0 +1,51 @@
+// EVOMANU - apply elementary row operations by hand to a copy of a matrix
+prgmEVOPICK
+If not(Z):Return
+0→V:prgmEVOLOAD
+"START"→Str8
+Lbl V
+"ROW OPS  "+toString(M)+"X"+toString(N)→Str0
+"ENTER:CHOOSE OPERATION"→Str7
+prgmEVODISP
+Menu("ROW OPERATION","SWAP RI<>RJ",1,"SCALE RI=K*RI",2,"REPLACE RI=RI+K*RJ",3,"SAVE AS R",4,"BACK",0)
+Lbl 1
+prgmEVOMROW
+B→I
+prgmEVOMROW
+B→D:I→B:1→A:0→X:1→Y
+Goto X
+Lbl 2
+prgmEVOMROW
+B→I
+0→Z
+While not(Z)
+Input "K (NONZERO)? ",Str1
+prgmEVOENTRY
+If P=0:0→Z
+End
+I→B:B→D:P→X:Q→Y:2→A
+Goto X
+Lbl 3
+prgmEVOMROW
+B→I
+Lbl J
+prgmEVOMROW
+B→T
+If T=I:Goto J
+0→Z
+While not(Z)
+Input "K? ",Str1
+prgmEVOENTRY
+End
+I→B:T→D:P→X:Q→Y:3→A
+Goto X
+Lbl X
+0→L:prgmEVOROWOP
+{1,A,B,D,X,Y}→ʟMXLOG
+1→T:prgmEVOOPS
+Goto V
+Lbl 4
+"MATRIX AFTER ROW OPS"→Str0
+prgmEVORES
+Return
+Lbl 0

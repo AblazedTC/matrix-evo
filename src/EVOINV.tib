@@ -1,0 +1,33 @@
+// EVOINV - inverse by Gauss-Jordan elimination on [A | I]
+1→X:prgmEVOSQ
+If not(Z):Return
+{N,2N}→dim([I]):{N,2N}→dim([J])
+For(I,1,N)
+For(J,1,N)
+(I=J)→[I](I,N+J):1→[J](I,N+J)
+End
+End
+N→E:2N→N
+2→F:ʟMXSET(1)→L:"INVERSE"→Str6
+prgmEVOROW
+If L:prgmEVOSTEP
+If U<E:Then
+ClrHome
+Disp "SINGULAR MATRIX","NO INVERSE EXISTS","RREF OF A IS NOT I","RANK "+toString(U)+" < "+toString(E)
+Pause
+"RREF OF [A:I]"→Str0
+"LEFT BLOCK IS NOT I"→Str8
+"ENTER:OK"→Str7
+prgmEVODISP
+Return
+End
+For(I,1,E)
+For(J,1,E)
+[I](I,E+J)→[I](I,J):[J](I,E+J)→[J](I,J)
+End
+End
+{E,E}→dim([I]):{E,E}→dim([J])
+E→N
+"INVERSE A^-1"→Str0
+"RREF [A:I] = [I:A^-1]"→Str8
+prgmEVORES

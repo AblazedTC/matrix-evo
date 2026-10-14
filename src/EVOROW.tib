@@ -1,0 +1,58 @@
+// EVOROW - row-reduction engine on [I]/[J] (M x N).   F=1 REF, F=2 RREF.
+// Pivots are only sought in columns 1..E.  L=1 logs every operation (start
+// matrix saved to slot 4) so EVOSTEP can replay them.
+// Out: U = rank, ʟMXPR(col) = pivot row (0 = free column), θ = (-1)^(row swaps)
+// Exact mode: first nonzero entry is the pivot.  Approximate mode: largest |entry|.
+// Clobbers: A B C D I J K O P Q R S X Y Z G H
+If L:Then
+{0}→ʟMXLOG
+4→Z:prgmEVOSAVE
+End
+N→dim(ʟMXPR)
+Fill(0,ʟMXPR)
+0→U:1→θ
+For(C,1,E)
+If U<M:Then
+0→K:0→X
+For(I,U+1,M)
+If [I](I,C)≠0:Then
+If V:Then
+If abs([I](I,C)/[J](I,C))>X:Then
+I→K:abs([I](I,C)/[J](I,C))→X
+End
+Else
+If not(K):I→K
+End
+End
+End
+If K:Then
+U+1→U
+If K≠U:Then
+1→A:U→B:K→D:0→X:1→Y:prgmEVOROWOP
+⁻θ→θ
+End
+U→ʟMXPR(C)
+If F=2 and ([I](U,C)≠1 or [J](U,C)≠1):Then
+[J](U,C)→X:[I](U,C)→Y
+If Y<0:Then
+⁻X→X:⁻Y→Y
+End
+If V:Then
+X/Y→X:1→Y
+End
+2→A:U→B:prgmEVOROWOP
+1→[I](U,C):1→[J](U,C)
+End
+For(I,1,M)
+If I≠U and (F=2 or I>U):Then
+If [I](I,C)≠0:Then
+[I](I,C)→P:[J](I,C)→Q:[I](U,C)→R:[J](U,C)→S:4→O:prgmEVOFRAC
+⁻P→X:Q→Y
+3→A:I→B:U→D:prgmEVOROWOP
+0→[I](I,C):1→[J](I,C)
+End
+End
+End
+End
+End
+End

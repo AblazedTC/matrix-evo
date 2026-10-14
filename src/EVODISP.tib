@@ -1,0 +1,47 @@
+// EVODISP - show the workspace [I]/[J] (M x N).  Str0 title, Str8 subtitle, Str7 key hint.
+// Arrow keys page through matrices larger than the screen. Any other key (or an arrow
+// that cannot scroll further) ends the display and is returned in K.
+// Clobbers: A B C D I J K P Q Str9
+1→C
+For(I,1,M)
+For(J,1,N)
+[I](I,J)→P:[J](I,J)→Q:prgmEVOFMT
+max(C,length(Str9)+1)→C
+End
+End
+min(C,30)→C
+int(30/C)→D
+0→A:0→B:0→K
+Repeat K
+ClrHome
+Output(1,1,Str0)
+Output(2,1,Str8)
+For(I,A+1,min(M,A+7))
+For(J,B+1,min(N,B+D))
+[I](I,J)→P:[J](I,J)→Q:prgmEVOFMT
+If length(Str9)≥C:sub(Str9,1,C-1)→Str9
+Output(I-A+2,(J-B)C-length(Str9)+1,Str9)
+End
+End
+If M>7 or N>D:Output(1,27,"MORE")
+If V:Then
+Output(10,1,"APPROX "+Str7)
+Else
+Output(10,1,Str7)
+End
+Repeat K
+getKey→K
+End
+If K=24 and B>0:Then
+max(0,B-D)→B:0→K
+End
+If K=26 and B+D<N:Then
+B+D→B:0→K
+End
+If K=25 and A>0:Then
+max(0,A-7)→A:0→K
+End
+If K=34 and A+7<M:Then
+A+7→A:0→K
+End
+End

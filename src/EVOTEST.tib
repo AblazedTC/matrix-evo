@@ -1,0 +1,99 @@
+// EVOTEST - Phase 1 device check.  Run it on the TI-84 Evo before using Matrix Evo:
+// it exercises every command and numeric assumption the suite depends on and
+// reports PASS/FAIL, then shows the key codes of ENTER, CLEAR and the arrows.
+// Uses ʟMXTST, [I] and [J]; needs EVOFMT and EVOFRAC on the calculator.
+Float
+Normal
+ClrHome
+0→T:0→F
+Disp "MATRIX EVO DEVICE CHECK"
+// 1 toString and string functions
+toString(⁻12)+"/"+toString(7)→Str1
+T+1→T
+If Str1="⁻12/7" and length(Str1)=5 and inString(Str1,"/")=4 and sub(Str1,2,2)="12":Then
+Disp "1 STRINGS      PASS"
+Else
+Disp "1 STRINGS      FAIL":F+1→F
+End
+// 2 exact integers below 1E10 and gcd(
+T+1→T
+If 99999*99999=9999800001 and gcd(6000000000,4000000000)=2000000000 and gcd(9999800001,99999)=99999 and fPart(9999999999/3)=0:Then
+Disp "2 INTEGERS     PASS"
+Else
+Disp "2 INTEGERS     FAIL":F+1→F
+End
+// 3 named lists: create, size, store past the end
+147→dim(ʟMXTST)
+5→ʟMXTST(147)
+augment(ʟMXTST,{9})→ʟMXTST
+T+1→T
+If dim(ʟMXTST)=148 and ʟMXTST(147)=5 and ʟMXTST(148)=9 and ʟMXTST(1)=0:Then
+Disp "3 LISTS        PASS"
+Else
+Disp "3 LISTS        FAIL":F+1→F
+End
+DelVar ʟMXTST
+// 4 matrices: dim, Fill, rowSwap, transpose, identity
+{2,3}→dim([I])
+Fill(1,[I])
+7→[I](2,3)
+rowSwap([I],1,2)→[I]
+[I]ᵀ→[I]
+T+1→T
+identity(2)→[J]
+If [I](3,1)=7 and [I](3,2)=1 and [I](1,2)=1 and [J](1,1)=1 and [J](1,2)=0:Then
+Disp "4 MATRICES     PASS"
+Else
+Disp "4 MATRICES     FAIL":F+1→F
+End
+// 5 expr( and decimal input
+// each step is labeled first, so a crash shows which command failed
+T+1→T
+Disp "5A EXPR( FRACTION..."
+expr("2/4")→A
+Disp "5B EXPR( DECIMAL..."
+expr("⁻1.25")→B
+Disp "5C ROUND(..."
+round(.123456,4)→C
+If A=.5 and B=⁻1.25 and C=.1235:Then
+Disp "5 EXPR/ROUND   PASS"
+Else
+Disp "5 EXPR/ROUND   FAIL":F+1→F
+End
+// 6 subprograms share variables
+3→P:4→Q:prgmEVOFMT
+1→P:3→Q:1→R:6→S:1→O:0→V:prgmEVOFRAC
+T+1→T
+If Str9="3/4" and P=1 and Q=2 and V=0:Then
+Disp "6 SUBPROGRAMS  PASS"
+Else
+Disp "6 SUBPROGRAMS  FAIL":F+1→F
+End
+Disp toString(T-F)+" OF "+toString(T)+" PASSED"
+Pause
+// 7 screen size: corners of the 10 x 31 home screen
+ClrHome
+Output(1,1,"+")
+Output(1,31,"+")
+Output(10,1,"+")
+Output(10,31,"+")
+Output(4,4,"7 SCREEN: A + IN EACH")
+Output(5,4,"CORNER MEANS 10X31 OK")
+Pause
+// 8 Menu( with a string variable, and key codes
+"STRING ITEM OK"→Str1
+Menu("8 MENU TEST",Str1,A,"ALSO OK",A)
+Lbl A
+ClrHome
+Disp "9 KEY CODES","PRESS ENTER, CLEAR,","LEFT, RIGHT, UP, DOWN","(EXPECT 105 45 24 26","25 34). 0 = DONE"
+0→K
+Repeat K=102
+0→K
+Repeat K
+getKey→K
+End
+Output(8,1,"KEY CODE:       ")
+Output(8,11,toString(K))
+End
+ClrHome
+Disp "DEVICE CHECK DONE"

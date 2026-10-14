@@ -1,0 +1,22 @@
+// EVOCELL - prompt for workspace entry (I,J) of slot T until the input is valid.
+// Pressing ENTER on an empty line keeps the current value.
+0→Z
+While not(Z)
+[I](I,J)→P:[J](I,J)→Q:prgmEVOFMT
+ClrHome
+Disp sub("ABR",T,1)+"("+toString(I)+","+toString(J)+")  NOW "+Str9
+Disp "E.G.  3  -2/5  1.25  SQRT(2)"
+Input "=",Str1
+If length(Str1)=0:Then
+1→Z
+Else
+prgmEVOENTRY
+If Z:Then
+P→[I](I,J):Q→[J](I,J)
+If Z=2:1→V
+Else
+Disp "INVALID ENTRY"
+Pause
+End
+End
+End

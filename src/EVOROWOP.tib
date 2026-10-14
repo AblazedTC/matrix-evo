@@ -1,0 +1,27 @@
+// EVOROWOP - one elementary row operation on [I]/[J] (N columns)
+// A=1: swap rows B and D      A=2: row B = (X/Y) row B
+// A=3: row B = row B + (X/Y) row D
+// L=1 appends {A,B,D,X,Y} to the step log ʟMXLOG.  Clobbers: J O P Q R S G H
+If A=1:Then
+rowSwap([I],B,D)→[I]
+rowSwap([J],B,D)→[J]
+End
+If A=2:Then
+For(J,1,N)
+[I](B,J)→P:[J](B,J)→Q:X→R:Y→S:3→O:prgmEVOFRAC
+P→[I](B,J):Q→[J](B,J)
+End
+End
+If A=3:Then
+For(J,1,N)
+If [I](D,J)≠0:Then
+[I](D,J)→P:[J](D,J)→Q:X→R:Y→S:3→O:prgmEVOFRAC
+P→R:Q→S:[I](B,J)→P:[J](B,J)→Q:1→O:prgmEVOFRAC
+P→[I](B,J):Q→[J](B,J)
+End
+End
+End
+If L:Then
+augment(ʟMXLOG,{A,B,D,X,Y})→ʟMXLOG
+ʟMXLOG(1)+1→ʟMXLOG(1)
+End

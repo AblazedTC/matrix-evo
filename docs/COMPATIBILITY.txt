@@ -1,0 +1,89 @@
+MATRIX EVO 1.0 - COMPATIBILITY AND VERIFICATION STATUS
+======================================================
+
+Target: TI-84 Evo, programs in the Evo .8xp2 format, launched from PRGM.
+
+STATUS: NOT YET VERIFIED ON A PHYSICAL TI-84 EVO.
+Everything below "verified" was checked on a computer. The items under
+"must be confirmed on the device" are the remaining Phase 1 exit criteria
+from the implementation plan.  Run EVOTEST on the calculator first.
+
+
+Device reports (2026-10-14, TI-84 Evo)
+--------------------------------------
+* EVOTEST checks 1-6 PASS: toString(, exact integers and gcd( up to 1E10,
+  named lists, matrix commands, expr(/round(, subprogram calls.
+* Bug found and fixed: a bare "Pause" was tokenized as the letters P,a,u,s,e
+  (syntax error on the device). The build now emits the real Pause token and
+  rejects any unrecognized command stored as letters.
+* An earlier EVOTEST that combined three expr(/round( calls in one If
+  condition raised an error; split into one call per line, the same checks
+  pass. Matrix Evo only uses expr( on its own line (expr(Str1)→P).
+* Still to report: screen corners (check 7), Menu( with Str1 (check 8),
+  key codes (check 9).
+
+Verified off-device
+-------------------
+* File format. Each program is tokenized by tivars_lib_cpp (MIT, Adrien
+  "Adriweb" Bertrand, Evo branch, compiled to WebAssembly and vendored in
+  tools/tivars).  The builder reproduces the documented SEUIL.8xp2 sample
+  byte for byte, including the CBOR container and checksum.
+* Every built program is re-read from its .8xp2 bytes. Its decoded text must
+  match the source exactly, and every token word must appear in the Evo
+  token table (EvoTokens.inc). The build fails otherwise.  This caught
+  characters the Evo cannot store in strings (| & ; and the -> arrow).
+* Program logic. All 52 programs run in a TI-BASIC simulator
+  (tools/tibsim.py: 14-digit decimal arithmetic, 10x31 home screen, Menu(
+  limited to 9 items, no Goto/Menu( out of open blocks, no empty lists).
+  tests/test_matrix_evo.py drives them through the real menus: 66 tests,
+  including the plan's reference table, 150 random matrices checked
+  against exact Fraction arithmetic (RREF, pivots, rank, det, lowest terms),
+  25 random inverse/null-space cases, editor/cancel behavior, error
+  messages, approximate-mode flagging, and 6x6 sizes.  No screen-layout
+  warnings (all text fits 31 columns).
+
+
+Must be confirmed on the device (EVOTEST covers 1-9)
+----------------------------------------------------
+ 1. toString( output format (e.g. "⁻12" with the negative sign).
+ 2. Whole numbers below 1E10 are exact, and gcd( accepts values up to 1E10.
+ 3. Named lists (ʟMXA...) can be created by storing to dim(, and grow
+    when a value is stored one past the end.
+ 4. dim(, Fill(, rowSwap(, transpose, identity( on matrices [G]-[J].
+ 5. expr( on decimal strings, round(.
+ 6. Subprogram calls (prgmEVO...) share variables with the caller and
+    return at the end of the subprogram or at Return (also inside If-Then).
+ 7. Home screen is 10 rows x 31 columns for Output( (community reports).
+ 8. Menu( accepts string variables as items (community reports say Str1...
+    work but Ans does not; Matrix Evo never passes Ans).
+ 9. getKey codes: ENTER 105, CLEAR 45, arrows 24/26/25/34 (TI-84 Plus CE
+    values, assumed unchanged).  If they differ, edit the numbers in
+    EVODISP.tib and EVOSTEP.tib and rebuild.
+10. Input "...",Str1 returns an empty string when ENTER is pressed on an
+    empty line (used for "keep current value" in the editor).
+11. Float and Normal mode tokens are accepted at the top of MATRIXEV.
+12. Speed. Statement counts measured in the simulator for 6x6 problems:
+       RREF ~8,200   inverse ~14,400   det ~4,600   A*B ~9,600
+       cofactor matrix + adjugate ~87,000 (shows a progress counter)
+    Time these on the device. The plan's target is that common 6x6 workloads
+    feel practical.
+13. Memory. 52 programs (~51 KB) plus about 6 KB of lists; [G]-[J] up to 6x12.
+
+
+Known limitations
+-----------------
+* Matrices are entered up to 6x6; results up to 72 cells.
+* Exact mode keeps every numerator and denominator below 1E10. Beyond that,
+  the computation continues in floating point and is labeled APPROX.
+* Approximate mode treats cancellation below 1E-10 (relative) as exact zero.
+* Entries that are not plain numbers/fractions are evaluated with expr(. A
+  syntax error there stops the program with the OS error screen (no data
+  is lost; run MATRIXEV again).
+* Uses [G]-[J], Str0-Str9 and real variables A-Z, theta as scratch.
+* The Evo's own exact-fraction number type is not used: Matrix Evo stores
+  numerators and denominators separately, so it does not depend on how the
+  OS displays fractions.
+* Not compatible with the TI-84 Plus CE: Evo BASIC is a different dialect
+  (10x31 screen, new token encoding).
+* The original Sightem/matrix project was used only as a feature reference;
+  no code or assets were copied (this is an independent implementation).

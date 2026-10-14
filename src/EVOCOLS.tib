@@ -1,0 +1,13 @@
+// EVOCOLS - basis of Col(A): pivot columns of the original matrix ʟMXO
+ʟMXO(1)→M:ʟMXO(2)→N
+If U=0:Then
+ClrHome
+Disp "COL(A) = {0}","(ZERO MATRIX)"
+Pause
+Else
+prgmEVOPIVC
+[G]→[I]:[H]→[J]:U→N
+"COL(A) BASIS (COLS)"→Str0
+Str5→Str8
+prgmEVORES
+End

@@ -1,0 +1,117 @@
+// EVOSPC - Chapter 4 subspaces, page 1.  The vectors are the columns of the chosen matrix.
+Lbl M
+Menu("SUBSPACES 1/2","INDEPENDENCE",1,"SPAN",2,"BASIS EXTRACTION",3,"BASIS TEST (R^M)",4,"DIMENSION",5,"RANK AND NULLITY",6,"COORDINATES [X]B",7,"MORE...",8,"BACK",0)
+Lbl 1
+prgmEVOSPRE
+If not(Z):Goto M
+ClrHome
+If U=N:Then
+Disp "LINEARLY INDEPENDENT","EVERY COLUMN HAS A PIVOT","RANK = "+toString(U)+" = NUMBER","OF VECTORS","AX=0 HAS ONLY X=0"
+Else
+Disp "LINEARLY DEPENDENT","RANK "+toString(U)+" < "+toString(N)+" VECTORS","SOME COLUMN HAS NO PIVOT"
+If N>M:Disp "(MORE VECTORS THAN","ENTRIES: ALWAYS DEP.)"
+Disp "NEXT: WEIGHTS X WITH","AX=0 (A DEPENDENCE)"
+End
+If V:Disp "(APPROXIMATE)"
+Pause
+If U=N:Goto M
+N→E:0→D:prgmEVONUL
+[G]→[I]:[H]→[J]:N→M:C→N
+"DEPENDENCE RELATIONS"→Str0
+"EACH COLUMN X: AX = 0"→Str8
+prgmEVORES
+Goto M
+Lbl 2
+prgmEVOSPRE
+If not(Z):Goto M
+ClrHome
+Disp "SPAN OF "+toString(N)+" VECTORS","IN R^"+toString(M)+" HAS DIMENSION "+toString(U)
+If U=M:Disp "THEY SPAN ALL OF R^"+toString(M),"(PIVOT IN EVERY ROW)"
+If U<M:Disp "THEY DO NOT SPAN R^"+toString(M),"(A ROW HAS NO PIVOT)"
+If U=0:Disp "SPAN = {0}"
+If V:Disp "(APPROXIMATE)"
+Pause
+If U=0:Goto M
+prgmEVOPIVC
+[G]→[I]:[H]→[J]:U→N
+"BASIS FOR THE SPAN"→Str0
+Str5→Str8
+prgmEVORES
+Goto M
+Lbl 3
+prgmEVOSPRE
+If not(Z):Goto M
+If U=0:Goto Z
+prgmEVOPIVC
+[G]→[I]:[H]→[J]:U→N
+"BASIS: PIVOT COLUMNS"→Str0
+Str5→Str8
+prgmEVORES
+Goto M
+Lbl 4
+prgmEVOSPRE
+If not(Z):Goto M
+ClrHome
+If U=N and U=M:Then
+Disp "YES: A BASIS OF R^"+toString(M),"INDEPENDENT AND","SPANNING (N PIVOTS,","SQUARE, RREF = I)"
+Else
+Disp "NO: NOT A BASIS OF R^"+toString(M)
+If U<N:Disp "- VECTORS ARE DEPENDENT"
+If U<M:Disp "- THEY DO NOT SPAN R^"+toString(M)
+If N≠M:Disp "- A BASIS OF R^"+toString(M)+" HAS",toString(M)+" VECTORS, NOT "+toString(N)
+End
+If V:Disp "(APPROXIMATE)"
+Pause
+Goto M
+Lbl 5
+prgmEVOSPRE
+If not(Z):Goto M
+ClrHome
+Disp "DIM SPAN(COLUMNS) = "+toString(U),"DIM COL(A) = RANK = "+toString(U),"DIM ROW(A) = "+toString(U),"DIM NUL(A) = "+toString(N-U),"DIM NUL(AT) = "+toString(M-U)
+If V:Disp "(APPROXIMATE)"
+Pause
+Goto M
+Lbl 6
+prgmEVOSPRE
+If not(Z):Goto M
+ClrHome
+Disp "RANK = "+toString(U),"(NUMBER OF PIVOTS)","NULLITY = "+toString(N-U),"(NUMBER OF FREE VARS)","RANK + NULLITY = "+toString(N),"= NUMBER OF COLUMNS"
+If V:Disp "(APPROXIMATE)"
+Pause
+Goto M
+Lbl 7
+0→Y:prgmEVOAUG
+If N-ʟMXA(2)≠1:1→W
+If W:Goto D
+0→L:2→F:N→E
+prgmEVOROW
+N-1→E
+ClrHome
+U-(ʟMXPR(N)≠0)→K
+If K<E:Disp "COLUMNS OF A ARE","DEPENDENT: NOT A BASIS"
+If K=E and ʟMXPR(N):Disp "X = B IS NOT IN THE","SPAN OF THE BASIS"
+If V:Disp "(APPROXIMATE)"
+If K<E or ʟMXPR(N):Then
+Pause
+End
+If K<E or ʟMXPR(N):Goto M
+1→D:prgmEVONUL
+[G]→[I]:[H]→[J]:E→M:1→N
+"COORDINATES [X]B"→Str0
+"X = C1B1+..., B = COLS OF A"→Str8
+prgmEVORES
+Goto M
+Lbl 8
+prgmEVOSPC2
+Goto M
+Lbl Z
+ClrHome
+Disp "ZERO MATRIX:","SPAN = {0},","THE BASIS IS EMPTY"
+Pause
+Goto M
+Lbl D
+ClrHome
+Disp "BASIS = COLUMNS OF A","X = B: A COLUMN WITH","AS MANY ROWS AS A"
+Pause
+Goto M
+Lbl 0

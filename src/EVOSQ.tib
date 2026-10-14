@@ -1,0 +1,11 @@
+// EVOSQ - pick and load a square matrix (at least X by X).  Z=0: back or not square.
+prgmEVOPICK
+If not(Z):Return
+0→V:prgmEVOLOAD
+If M≠N or N<X:Then
+ClrHome
+Disp "NEED A SQUARE MATRIX","(THIS ONE IS "+toString(M)+"X"+toString(N)+")"
+If X>1:Disp "OF SIZE 2X2 OR MORE"
+Pause
+0→Z
+End

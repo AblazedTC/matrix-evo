@@ -1,0 +1,44 @@
+// MATRIXEV - Matrix Evo launcher.  Run from PRGM.
+// Persistent data: ʟMXA ʟMXB ʟMXR (matrix slots), ʟMXSET (settings).
+// Workspace: [G] [H] [I] [J], ʟMXW ʟMXST ʟMXLOG ʟMXPR.
+Float
+Normal
+8→dim(ʟMXSET)
+If ʟMXSET(8)≠1:{1,6,0,0,0,0,0,1}→ʟMXSET
+{2,2,0,0,1,0,1,0,1,0,1}→ʟMXW
+147→dim(ʟMXW)
+147→dim(ʟMXA)
+147→dim(ʟMXB)
+147→dim(ʟMXR)
+147→dim(ʟMXST)
+If ʟMXA(1)<1:ʟMXW→ʟMXA
+If ʟMXB(1)<1:ʟMXW→ʟMXB
+If ʟMXR(1)<1:ʟMXW→ʟMXR
+{0}→ʟMXLOG
+0→V:0→W
+Lbl M
+Menu("MATRIX EVO 1.0","ROW REDUCTION",1,"MATRIX ALGEBRA",2,"VECTOR TOOLS",3,"LINEAR SYSTEMS",4,"SUBSPACES",5,"MATRIX EDITOR",6,"SETTINGS",7,"EXIT",0)
+Lbl 1
+prgmEVORED
+Goto M
+Lbl 2
+prgmEVOALG
+Goto M
+Lbl 3
+prgmEVOVEC
+Goto M
+Lbl 4
+prgmEVOSYS
+Goto M
+Lbl 5
+prgmEVOSPC
+Goto M
+Lbl 6
+prgmEVOEDIT
+Goto M
+Lbl 7
+prgmEVOSET
+Goto M
+Lbl 0
+ClrHome
+Disp "MATRIX EVO CLOSED","A, B AND R ARE KEPT"

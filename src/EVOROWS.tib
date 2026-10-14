@@ -1,0 +1,12 @@
+// EVOROWS - basis of Row(A): the nonzero rows of the RREF in the workspace (kept intact)
+If U=0:Then
+ClrHome
+Disp "ROW(A) = {0}","(ZERO MATRIX)"
+Pause
+Else
+M→T:U→M
+"ROW(A) BASIS (ROWS)"→Str0
+"NONZERO ROWS OF RREF"→Str8
+prgmEVORES
+T→M
+End

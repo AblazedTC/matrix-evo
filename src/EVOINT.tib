@@ -1,0 +1,7 @@
+// EVOINT - validate Str1 as a whole number between X and Y.  Out: P, Z=1 valid / 0 not.
+prgmEVOENTRY
+If Z≠1:Then
+0→Z
+Else
+If Q≠1 or P<X or P>Y:0→Z
+End

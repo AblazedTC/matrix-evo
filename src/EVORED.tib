@@ -1,0 +1,60 @@
+// EVORED - Chapter 1 row reduction menu
+Lbl M
+Menu("ROW REDUCTION","REF WITH STEPS",1,"RREF WITH STEPS",2,"GAUSSIAN ELIM. [A:B]",3,"GAUSS-JORDAN [A:B]",4,"ELEMENTARY ROW OPS",5,"PIVOTS AND FREE VARS",6,"BACK",0)
+Lbl 1
+1→F:"REF"→Str6:Goto R
+Lbl 2
+2→F:"RREF"→Str6:Goto R
+Lbl R
+prgmEVOPICK
+If not(Z):Goto M
+0→V:prgmEVOLOAD
+N→E:ʟMXSET(1)→L
+prgmEVOROW
+If L:prgmEVOSTEP
+Str6+" ("+toString(M)+"X"+toString(N)+")"→Str0
+"RANK "+toString(U)→Str8
+prgmEVORES
+Goto M
+Lbl 3
+1→F:"GAUSS"→Str6:Goto G
+Lbl 4
+2→F:"G-JORDAN"→Str6
+Lbl G
+0→Y:prgmEVOAUG
+If W:Goto D
+prgmEVOSOLV
+Goto M
+Lbl 5
+prgmEVOMANU
+Goto M
+Lbl 6
+prgmEVOPICK
+If not(Z):Goto M
+0→V:prgmEVOLOAD
+N→E:0→L:2→F
+prgmEVOROW
+"PIVOT COLUMNS:"→Str1
+"FREE COLUMNS:"→Str2
+For(J,1,N)
+If ʟMXPR(J):Then
+Str1+" "+toString(J)→Str1
+Else
+Str2+" "+toString(J)→Str2
+End
+End
+If U=0:"PIVOT COLUMNS: NONE"→Str1
+If U=N:"FREE COLUMNS: NONE"→Str2
+ClrHome
+Disp "RANK "+toString(U),Str1,Str2,"AS A SYSTEM'S COEFFICIENTS:","PIVOT COLS = BASIC VARS","FREE COLS = FREE VARS"
+Pause
+"RREF: PIVOTS SHOWN"→Str0
+"RANK "+toString(U)→Str8
+prgmEVORES
+Goto M
+Lbl D
+ClrHome
+Disp "DIMENSION MISMATCH","B MUST HAVE THE SAME","NUMBER OF ROWS AS A"
+Pause
+Goto M
+Lbl 0

@@ -1,0 +1,28 @@
+// EVODET - determinant with steps: REF without scaling, det = (-1)^swaps x pivots
+1→X:prgmEVOSQ
+If not(Z):Return
+1→F:N→E:ʟMXSET(1)→L:"DET"→Str6
+prgmEVOROW
+If L:prgmEVOSTEP
+"REF (ROWS NOT SCALED)"→Str0
+"PIVOTS ON THE DIAGONAL"→Str8
+"ENTER:CONTINUE"→Str7
+prgmEVODISP
+θ→P:1→Q
+If U<N:0→P
+For(K,1,N(U=N))
+[I](K,K)→R:[J](K,K)→S:3→O:prgmEVOFRAC
+End
+prgmEVOFMT
+ClrHome
+If U<N:Then
+Disp "A COLUMN HAS NO PIVOT","(RANK "+toString(U)+" < "+toString(N)+")","SO DET = 0"
+Else
+Disp "DET = (-1)^S X PRODUCT","OF THE PIVOTS","S = NUMBER OF ROW SWAPS"
+If θ<0:Disp "S IS ODD: SIGN -"
+If θ>0:Disp "S IS EVEN: SIGN +"
+End
+Disp "DET = "+Str9
+If V:Disp "(APPROXIMATE)"
+Pause
+prgmEVOSCAL

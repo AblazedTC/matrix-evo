@@ -1,0 +1,19 @@
+// EVOMUL - workspace = workspace x (matrix in ʟMXW, which must have N rows)
+// Clobbers: C I J K O P Q R S X Y G H [G] [H]
+ʟMXW(2)→C
+{M,C}→dim([G]):{M,C}→dim([H])
+For(I,1,M)
+For(J,1,C)
+0→X:1→Y
+For(K,1,N)
+If [I](I,K)≠0:Then
+[I](I,K)→P:[J](I,K)→Q:ʟMXW(2+2((K-1)C+J))→R:ʟMXW(3+2((K-1)C+J))→S:3→O:prgmEVOFRAC
+X→R:Y→S:1→O:prgmEVOFRAC
+P→X:Q→Y
+End
+End
+X→[G](I,J):Y→[H](I,J)
+End
+End
+[G]→[I]:[H]→[J]:C→N
+max(V,ʟMXW(3))→V

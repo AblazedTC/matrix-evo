@@ -1,0 +1,9 @@
+// EVODOT - P/Q = dot product of the column vectors [I]/[J] and [G]/[H] (M entries)
+// Clobbers: K O R S X Y G H
+0→X:1→Y
+For(K,1,M)
+[I](K,1)→P:[J](K,1)→Q:[G](K,1)→R:[H](K,1)→S:3→O:prgmEVOFRAC
+X→R:Y→S:1→O:prgmEVOFRAC
+P→X:Q→Y
+End
+X→P:Y→Q

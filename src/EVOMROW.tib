@@ -1,0 +1,7 @@
+// EVOMROW - ask for a row number 1..M -> B
+0→Z
+While not(Z)
+Input "ROW? ",Str1
+1→X:M→Y:prgmEVOINT
+End
+P→B

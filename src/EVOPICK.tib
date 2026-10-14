@@ -1,0 +1,13 @@
+// EVOPICK - choose a stored matrix.  Out: Z = 1 (A), 2 (B), 3 (R) or 0 (back)
+"A  "+toString(ʟMXA(1))+"X"+toString(ʟMXA(2))→Str1
+"B  "+toString(ʟMXB(1))+"X"+toString(ʟMXB(2))→Str2
+"R  "+toString(ʟMXR(1))+"X"+toString(ʟMXR(2))→Str3
+Menu("USE WHICH MATRIX?",Str1,1,Str2,2,Str3,3,"BACK",0)
+Lbl 1
+1→Z:Return
+Lbl 2
+2→Z:Return
+Lbl 3
+3→Z:Return
+Lbl 0
+0→Z

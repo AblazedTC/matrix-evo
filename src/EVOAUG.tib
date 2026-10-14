@@ -1,0 +1,22 @@
+// EVOAUG - workspace = [A | B]  (Y=1: [A | 0] for the homogeneous system)
+// W=1 if B does not have the same number of rows as A.  Clobbers: C I J K
+0→V:0→W:1→Z:prgmEVOLOAD
+If Y=1:Then
+1→C
+Else
+ʟMXB(2)→C
+If ʟMXB(1)≠M:1→W
+max(V,ʟMXB(3))→V
+End
+If not(W):Then
+{M,N+C}→dim([I]):{M,N+C}→dim([J])
+For(I,1,M)
+For(J,1,C)
+0→[I](I,N+J):1→[J](I,N+J)
+If Y≠1:Then
+ʟMXB(2+2((I-1)C+J))→[I](I,N+J):ʟMXB(3+2((I-1)C+J))→[J](I,N+J)
+End
+End
+End
+N+C→N
+End

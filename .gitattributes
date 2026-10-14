@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.tib text eol=lf encoding=utf-8
+*.wasm binary
+*.8xp2 binary

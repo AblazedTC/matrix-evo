@@ -1,0 +1,38 @@
+// EVOSOLV - reduce the augmented workspace [A|b] and classify the system.
+// F=1 Gaussian elimination (REF steps, then back-substitution), F=2 Gauss-Jordan.
+// Str6 = procedure name.  Solution (or P + free directions) is saved as R.
+ʟMXSET(1)→L
+N→E
+prgmEVOROW
+If L:prgmEVOSTEP
+If F=1:Then
+0→L:2→F:prgmEVOROW
+End
+"RREF OF [A:B]"→Str0
+"RANK [A:B] = "+toString(U)→Str8
+"ENTER:CONTINUE"→Str7
+prgmEVODISP
+N-1→E
+ClrHome
+If ʟMXPR(N):Then
+Disp "NO SOLUTION","(INCONSISTENT SYSTEM)","RREF HAS A ROW","[0 0 ... 0 : 1]","RANK A = "+toString(U-1),"RANK [A:B] = "+toString(U)
+If V:Disp "APPROXIMATE: ROUNDING","MAY AFFECT THIS RESULT"
+Pause
+Else
+1→D:prgmEVONUL
+If C=1:Then
+Disp "UNIQUE SOLUTION","EVERY VARIABLE COLUMN","HAS A PIVOT"
+"UNIQUE SOLUTION X"→Str0
+"X"+toString(1)+"..X"+toString(E)+" TOP TO BOTTOM"→Str8
+Else
+Disp "INFINITELY MANY","SOLUTIONS",Str5,"X = P + T1*V1 + T2*V2...","COLUMN 1 = P","NEXT COLUMNS = V1, V2..."
+"X=P+T1V1+.. (COL1=P)"→Str0
+Str5→Str8
+End
+"RANK A = "+toString(U)+" OF "+toString(E)→Str1
+Disp Str1
+If V:Disp "APPROXIMATE: ROUNDING","MAY AFFECT THIS RESULT"
+Pause
+[G]→[I]:[H]→[J]:E→M:C→N
+prgmEVORES
+End

@@ -1,0 +1,4 @@
+// EVOAPPLY - re-apply logged operation number I (without logging it again)
+ʟMXLOG(5I-3)→A:ʟMXLOG(5I-2)→B:ʟMXLOG(5I-1)→D
+ʟMXLOG(5I)→X:ʟMXLOG(5I+1)→Y
+0→L:prgmEVOROWOP

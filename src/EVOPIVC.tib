@@ -1,0 +1,16 @@
+// EVOPIVC - [G]/[H] = the pivot columns of the original matrix ʟMXO (M x max(1,U)).
+// Str5 lists the column numbers.  Clobbers: I J K
+{M,max(1,U)}→dim([G]):{M,max(1,U)}→dim([H])
+Fill(0,[G]):Fill(1,[H])
+0→K
+"COLUMNS"→Str5
+For(J,1,N)
+If ʟMXPR(J):Then
+K+1→K
+Str5+" "+toString(J)→Str5
+For(I,1,M)
+ʟMXO(2+2((I-1)N+J))→[G](I,K):ʟMXO(3+2((I-1)N+J))→[H](I,K)
+End
+End
+End
+Str5+" OF THE MATRIX"→Str5

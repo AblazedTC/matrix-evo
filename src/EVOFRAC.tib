@@ -1,0 +1,54 @@
+// EVOFRAC - exact rational arithmetic.  P/Q (op O) R/S -> P/Q
+// O: 1 add, 2 subtract, 3 multiply, 4 divide.  Q,S > 0, fractions in lowest terms.
+// Stays exact while every numerator/denominator is below 1E10 (all intermediates
+// are then exact in the 14-digit float format). Otherwise sets V=1 (approximate)
+// and continues in floating point; a sum that cancels to below 1E-10 of its
+// larger term is treated as an exact 0 (rounding residue). Division by zero sets W=1.
+// Clobbers: G H R S
+If O=4:Then
+If R=0:Then
+1→W:0→P:1→Q:Return
+End
+S→H:R→S:H→R
+If S<0:Then
+⁻R→R:⁻S→S
+End
+End
+If O=2:⁻R→R
+If fPart(P) or fPart(R):1→V
+If not(V):Then
+If O≥3:Then
+If P=0 or R=0:Then
+0→P:1→Q
+Else
+gcd(abs(P),S)→G:gcd(abs(R),Q)→H
+If abs(P/G)abs(R/H)<ᴇ10 and (Q/H)(S/G)<ᴇ10:Then
+(P/G)(R/H)→P:(Q/H)(S/G)→Q
+Else
+1→V
+End
+End
+Else
+gcd(Q,S)→G
+If abs(P)(S/G)<5ᴇ9 and abs(R)(Q/G)<5ᴇ9 and Q(S/G)<ᴇ10:Then
+P(S/G)+R(Q/G)→P:Q(S/G)→Q
+If P=0:Then
+1→Q
+Else
+gcd(abs(P),Q)→G:P/G→P:Q/G→Q
+End
+Else
+1→V
+End
+End
+End
+If V:Then
+If O≥3:Then
+PR/(QS)→P
+Else
+max(abs(P/Q),abs(R/S))→H
+P/Q+R/S→P
+If abs(P)<ᴇ⁻10H:0→P
+End
+1→Q
+End

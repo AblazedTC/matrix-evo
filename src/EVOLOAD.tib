@@ -1,0 +1,18 @@
+// EVOLOAD - copy slot Z (1=A 2=B 3=R 4=step start 5=subspace original) into the workspace.
+// Out: [I] numerators, [J] denominators, M x N, V raised if the slot is approximate.
+// The slot is also left in ʟMXW.  Clobbers: I J K
+If Z=1:ʟMXA→ʟMXW
+If Z=2:ʟMXB→ʟMXW
+If Z=3:ʟMXR→ʟMXW
+If Z=4:ʟMXST→ʟMXW
+If Z=5:ʟMXO→ʟMXW
+ʟMXW(1)→M:ʟMXW(2)→N
+max(V,ʟMXW(3))→V
+{M,N}→dim([I]):{M,N}→dim([J])
+4→K
+For(I,1,M)
+For(J,1,N)
+ʟMXW(K)→[I](I,J):ʟMXW(K+1)→[J](I,J)
+K+2→K
+End
+End

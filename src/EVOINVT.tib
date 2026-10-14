@@ -1,0 +1,19 @@
+// EVOINVT - invertibility test (Invertible Matrix Theorem)
+prgmEVOPICK
+If not(Z):Return
+0→V:prgmEVOLOAD
+ClrHome
+If M≠N:Then
+Disp "NOT SQUARE ("+toString(M)+"X"+toString(N)+")","ONLY SQUARE MATRICES","CAN BE INVERTIBLE"
+Else
+prgmEVODETC
+prgmEVOFMT
+Disp "DET = "+Str9,"RANK = "+toString(U)+" OF "+toString(N)
+If P≠0:Then
+Disp "INVERTIBLE, SINCE:"," DET IS NOT 0"," RREF(A) = I"," NUL(A) = {0}"," COLUMNS INDEPENDENT"," AX=B: ONE SOLUTION"
+Else
+Disp "NOT INVERTIBLE, SINCE:"," DET = 0"," FEWER THAN N PIVOTS"," AX=0 HAS X NOT 0"," COLUMNS DEPENDENT"
+End
+If V:Disp "(APPROXIMATE)"
+End
+Pause

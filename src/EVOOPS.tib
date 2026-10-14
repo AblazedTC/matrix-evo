@@ -1,0 +1,18 @@
+// EVOOPS - describe logged operation T in Str8, e.g. "R2=R2-2R1", "R1<>R3", "R1=(1/2)R1"
+ʟMXLOG(5T-3)→A:ʟMXLOG(5T-2)→B:ʟMXLOG(5T-1)→D
+ʟMXLOG(5T)→X:ʟMXLOG(5T+1)→Y
+"R"+toString(B)→Str8
+If A=1:Str8+"<>R"+toString(D)→Str8
+If A≥2:Then
+Str8+"="→Str8
+If A=3:Str8+"R"+toString(B)+"+"→Str8
+If X<0:Then
+If A=3:sub(Str8,1,length(Str8)-1)→Str8
+Str8+"-"→Str8
+End
+abs(X)→P:Y→Q:prgmEVOFMT
+If Q≠1:"("+Str9+")"→Str9
+If P≠1 or Q≠1:Str8+Str9→Str8
+If A=2:Str8+"R"+toString(B)→Str8
+If A=3:Str8+"R"+toString(D)→Str8
+End

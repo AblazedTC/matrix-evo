@@ -1,0 +1,39 @@
+// EVONORM - norm of the column vector [I]/[J] (M entries), then (F=0) its unit vector.
+// Str4 names the vector.  The norm is exact when ||x||^2 is a ratio of perfect squares;
+// otherwise it is shown as a square root plus a decimal approximation.
+[I]→[G]:[J]→[H]
+prgmEVODOT
+prgmEVOFMT
+"NORM("+Str4+")^2 = "+Str9→Str2
+P→X:Q→Y:0→T
+If not(V):Then
+round(√(P),0)→R:round(√(Q),0)→S
+If R²=P and S²=Q:1→T
+End
+If T:Then
+R→P:S→Q:prgmEVOFMT
+"NORM("+Str4+") = "+Str9→Str3
+R→X:S→Y
+Else
+"NORM("+Str4+") = SQRT("+Str9+")"→Str3
+√(X/Y)→X:1→Y
+End
+ClrHome
+Disp Str2,Str3
+If not(T):Disp "   = "+toString(round(X,6))+" (APPROX)"
+If X=0 and not(F):Disp "ZERO VECTOR:","NO UNIT VECTOR"
+Pause
+If X≠0 and not(F):Then
+For(K,1,M)
+If T:Then
+[I](K,1)→P:[J](K,1)→Q:X→R:Y→S:4→O:prgmEVOFRAC
+Else
+[I](K,1)/[J](K,1)/X→P:1→Q
+End
+P→[I](K,1):Q→[J](K,1)
+End
+If not(T):1→V
+"UNIT VECTOR "+Str4+"/NORM"→Str0
+"LENGTH 1, SAME DIRECTION"→Str8
+prgmEVORES
+End

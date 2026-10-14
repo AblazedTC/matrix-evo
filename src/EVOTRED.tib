@@ -1,0 +1,6 @@
+// EVOTRED - RREF of the transpose of the original matrix ʟMXO (no steps)
+5→Z:0→V:prgmEVOLOAD
+[I]ᵀ→[I]:[J]ᵀ→[J]
+M→K:N→M:K→N
+2→F:N→E:0→L
+prgmEVOROW

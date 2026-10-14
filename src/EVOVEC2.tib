@@ -1,0 +1,92 @@
+// EVOVEC2 - Chapter 2 vector tools, page 2
+Lbl M
+Menu("VECTORS 2/2","PROJECTION OF U ON V",1,"LINEAR COMBINATION",2,"SPAN MEMBERSHIP",3,"BACK",0)
+Lbl 1
+1→Y:prgmEVOVLD
+If Z≠1:Goto D
+prgmEVODOT
+6→dim(ʟMXV)
+P→ʟMXV(1):Q→ʟMXV(2)
+0→X:1→Y
+For(K,1,M)
+[G](K,1)→P:[H](K,1)→Q:P→R:Q→S:3→O:prgmEVOFRAC
+X→R:Y→S:1→O:prgmEVOFRAC
+P→X:Q→Y
+End
+If X=0:Then
+ClrHome
+Disp "CANNOT PROJECT ONTO","THE ZERO VECTOR"
+Pause
+End
+If X=0:Goto M
+X→ʟMXV(5):Y→ʟMXV(6)
+ʟMXV(1)→P:ʟMXV(2)→Q:X→R:Y→S:4→O:prgmEVOFRAC
+P→ʟMXV(3):Q→ʟMXV(4)
+ClrHome
+ʟMXV(1)→P:ʟMXV(2)→Q:prgmEVOFMT
+Disp "U.V = "+Str9
+ʟMXV(5)→P:ʟMXV(6)→Q:prgmEVOFMT
+Disp "V.V = "+Str9
+ʟMXV(3)→P:ʟMXV(4)→Q:prgmEVOFMT
+Disp "C = (U.V)/(V.V) = "+Str9,"PROJ = C*V"
+If V:Disp "(APPROXIMATE)"
+Pause
+For(K,1,M)
+[G](K,1)→P:[H](K,1)→Q:ʟMXV(3)→R:ʟMXV(4)→S:3→O:prgmEVOFRAC
+P→[I](K,1):Q→[J](K,1)
+End
+"PROJECTION OF U ON V"→Str0
+"((U.V)/(V.V))V"→Str8
+prgmEVORES
+Goto M
+Lbl 2
+0→V:1→Z:prgmEVOLOAD
+ʟMXB(1)≠N or ʟMXB(2)≠1→W
+If W:Then
+ClrHome
+Disp "VECTORS = COLUMNS OF A","WEIGHTS = B, A COLUMN","WITH ONE ENTRY PER","COLUMN OF A"
+Pause
+End
+If W:Goto M
+ʟMXB→ʟMXW
+prgmEVOMUL
+"C1A1+C2A2+...  (C = B)"→Str0
+"AI = COLUMN I OF A"→Str8
+prgmEVORES
+Goto M
+Lbl 3
+0→Y:prgmEVOAUG
+If N-ʟMXA(2)≠1:1→W
+If W:Then
+ClrHome
+Disp "B MUST BE A COLUMN","WITH AS MANY ROWS AS A"
+Pause
+End
+If W:Goto M
+0→L:2→F:N→E
+prgmEVOROW
+ClrHome
+If ʟMXPR(N):Then
+Disp "NO: B IS NOT IN THE","SPAN OF THE COLUMNS","OF A ([A:B] IS","INCONSISTENT)"
+If V:Disp "(APPROXIMATE)"
+Pause
+End
+If ʟMXPR(N):Goto M
+N-1→E:1→D:prgmEVONUL
+Disp "YES: B IS IN THE SPAN","B = C1A1+...+CKAK","WEIGHTS C SHOWN NEXT"
+If C>1:Disp "(NOT UNIQUE: FREE","VARIABLES SET TO 0)"
+If V:Disp "(APPROXIMATE)"
+Pause
+{E,1}→dim([G]):{E,1}→dim([H])
+[G]→[I]:[H]→[J]:E→M:1→N
+"WEIGHTS C: B = A*C"→Str0
+"AI = COLUMN I OF A"→Str8
+prgmEVORES
+Goto M
+Lbl D
+ClrHome
+If Z=0:Disp "U = A IS NOT A VECTOR"
+If Z=2:Disp "V = B MUST BE A VECTOR","OF THE SAME LENGTH AS U"
+Pause
+Goto M
+Lbl 0

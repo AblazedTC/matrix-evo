@@ -1,0 +1,10 @@
+// EVOSPRE - pick a matrix (its columns are the vectors), keep the original in ʟMXO
+// (slot 5) and row reduce it to RREF, with steps when enabled.  Z=0: back.
+prgmEVOPICK
+If not(Z):Return
+0→V:prgmEVOLOAD
+ʟMXW→ʟMXO
+2→F:N→E:ʟMXSET(1)→L:"RREF"→Str6
+prgmEVOROW
+If L:prgmEVOSTEP
+1→Z

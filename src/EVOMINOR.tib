@@ -1,0 +1,30 @@
+// EVOMINOR - minor M(i,j) and cofactor C(i,j) = (-1)^(i+j) M(i,j)
+2→X:prgmEVOSQ
+If not(Z):Return
+0→Z
+While not(Z)
+Input "ROW I? ",Str1
+1→X:N→Y:prgmEVOINT
+End
+P→T
+0→Z
+While not(Z)
+Input "COLUMN J? ",Str1
+1→X:N→Y:prgmEVOINT
+End
+P→Z
+prgmEVOSUBM
+"DELETE ROW "+toString(T)+", COLUMN "+toString(Z)→Str0
+"MINOR = DET OF THIS"→Str8
+"ENTER:CONTINUE"→Str7
+prgmEVODISP
+prgmEVODETC
+prgmEVOFMT
+ClrHome
+Disp "MINOR M"+toString(T)+toString(Z)+" = "+Str9
+If fPart((T+Z)/2):⁻P→P
+prgmEVOFMT
+Disp "COFACTOR C"+toString(T)+toString(Z),"= (-1)^"+toString(T+Z)+" X M"+toString(T)+toString(Z),"= "+Str9
+If V:Disp "(APPROXIMATE)"
+Pause
+prgmEVOSCAL

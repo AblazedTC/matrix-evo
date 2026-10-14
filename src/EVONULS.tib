@@ -1,0 +1,12 @@
+// EVONULS - basis of Nul of the matrix whose RREF is in the workspace
+N→E:0→D:prgmEVONUL
+If C=0:Then
+ClrHome
+Disp "NULL SPACE = {0}","ONLY THE ZERO VECTOR","(NO FREE VARIABLES)"
+Pause
+Else
+[G]→[I]:[H]→[J]:E→M:C→N
+"NULL SPACE BASIS (COLS)"→Str0
+Str5→Str8
+prgmEVORES
+End

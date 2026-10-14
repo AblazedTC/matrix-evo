@@ -1,0 +1,9 @@
+// EVOSUBM - workspace = the square matrix in ʟMXW with row T and column Z deleted
+ʟMXW(1)-1→N:N→M
+{N,N}→dim([I]):{N,N}→dim([J])
+For(I,1,N)
+For(J,1,N)
+2+2((I+(I≥T)-1)(N+1)+J+(J≥Z))→K
+ʟMXW(K)→[I](I,J):ʟMXW(K+1)→[J](I,J)
+End
+End

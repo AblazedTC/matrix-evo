@@ -1,0 +1,98 @@
+// EVOVEC - Chapter 2 vector tools.  u = A, v = B (row or column matrices).
+Lbl M
+Menu("VECTORS  U=A  V=B","U+V",1,"U-V",2,"SCALAR K*U",3,"DOT PRODUCT U.V",4,"NORM AND UNIT VECTOR",5,"DISTANCE NORM(U-V)",6,"CROSS PRODUCT UXV",7,"MORE...",8,"BACK",0)
+Lbl 1
+1→T:"U+V"→Str0:Goto P
+Lbl 2
+2→T:"U-V"→Str0
+Lbl P
+1→Y:prgmEVOVLD
+If Z≠1:Goto D
+For(K,1,M)
+[I](K,1)→P:[J](K,1)→Q:[G](K,1)→R:[H](K,1)→S:T→O:prgmEVOFRAC
+P→[I](K,1):Q→[J](K,1)
+End
+"ENTRY BY ENTRY"→Str8
+prgmEVORES
+Goto M
+Lbl 3
+0→Y:prgmEVOVLD
+If Z≠1:Goto D
+0→Z
+While not(Z)
+Input "K? ",Str1
+prgmEVOENTRY
+End
+If Z=2:1→V
+P→X:Q→Y
+For(K,1,M)
+[I](K,1)→P:[J](K,1)→Q:X→R:Y→S:3→O:prgmEVOFRAC
+P→[I](K,1):Q→[J](K,1)
+End
+"K*U"→Str0
+"K = "+Str1→Str8
+prgmEVORES
+Goto M
+Lbl 4
+1→Y:prgmEVOVLD
+If Z≠1:Goto D
+prgmEVODOT
+prgmEVOFMT
+ClrHome
+Disp "U.V = U1V1+U2V2+...","U.V = "+Str9
+If P=0:Disp "U AND V ARE ORTHOGONAL"
+If V:Disp "(APPROXIMATE)"
+Pause
+prgmEVOSCAL
+Goto M
+Lbl 5
+0→Y:prgmEVOVLD
+If Z≠1:Goto D
+"U"→Str4:0→F
+prgmEVONORM
+Goto M
+Lbl 6
+1→Y:prgmEVOVLD
+If Z≠1:Goto D
+For(K,1,M)
+[I](K,1)→P:[J](K,1)→Q:[G](K,1)→R:[H](K,1)→S:2→O:prgmEVOFRAC
+P→[I](K,1):Q→[J](K,1)
+End
+"U-V"→Str4:1→F
+prgmEVONORM
+Goto M
+Lbl 7
+1→Y:prgmEVOVLD
+If Z≠1 or M≠3:Goto C
+6→dim(ʟMXV)
+For(T,1,3)
+T+1-3(T=3)→A
+A+1-3(A=3)→B
+[I](A,1)→P:[J](A,1)→Q:[G](B,1)→R:[H](B,1)→S:3→O:prgmEVOFRAC
+P→X:Q→Y
+[I](B,1)→P:[J](B,1)→Q:[G](A,1)→R:[H](A,1)→S:3→O:prgmEVOFRAC
+P→R:Q→S:X→P:Y→Q:2→O:prgmEVOFRAC
+P→ʟMXV(2T-1):Q→ʟMXV(2T)
+End
+For(T,1,3)
+ʟMXV(2T-1)→[I](T,1):ʟMXV(2T)→[J](T,1)
+End
+"CROSS PRODUCT UXV"→Str0
+"(U2V3-U3V2,U3V1-U1V3,..)"→Str8
+prgmEVORES
+Goto M
+Lbl 8
+prgmEVOVEC2
+Goto M
+Lbl C
+ClrHome
+Disp "CROSS PRODUCT NEEDS","TWO VECTORS IN R^3"
+Pause
+Goto M
+Lbl D
+ClrHome
+If Z=0:Disp "U = A IS NOT A VECTOR","(MAKE A 1XN OR NX1)"
+If Z=2:Disp "V = B MUST BE A VECTOR","OF THE SAME LENGTH AS U"
+Pause
+Goto M
+Lbl 0

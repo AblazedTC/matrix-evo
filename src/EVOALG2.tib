@@ -1,0 +1,56 @@
+// EVOALG2 - Chapter 3 matrix algebra, page 2
+Lbl M
+Menu("MATRIX ALGEBRA 2/2","IDENTITY / ZERO",1,"INVERSE (STEPS)",2,"DETERMINANT (STEPS)",3,"MINOR AND COFACTOR",4,"COFACTOR MATRIX AND ADJ",5,"CRAMER'S RULE",6,"INVERTIBLE?",7,"BACK",0)
+Lbl 1
+Menu("GENERATE","IDENTITY N X N",A,"ZERO M X N",B,"BACK",M)
+Lbl A
+0→Z
+While not(Z)
+Input "N (1-6)? ",Str1
+1→X:6→Y:prgmEVOINT
+End
+P→M:P→N:0→V
+identity(N)→[I]
+{N,N}→dim([J]):Fill(1,[J])
+"IDENTITY I"+toString(N)→Str0
+" "→Str8
+prgmEVORES
+Goto M
+Lbl B
+0→Z
+While not(Z)
+Input "ROWS (1-6)? ",Str1
+1→X:6→Y:prgmEVOINT
+End
+P→M
+0→Z
+While not(Z)
+Input "COLUMNS (1-6)? ",Str1
+1→X:6→Y:prgmEVOINT
+End
+P→N:0→V
+{M,N}→dim([I]):{M,N}→dim([J])
+Fill(0,[I]):Fill(1,[J])
+"ZERO MATRIX"→Str0
+toString(M)+"X"+toString(N)→Str8
+prgmEVORES
+Goto M
+Lbl 2
+prgmEVOINV
+Goto M
+Lbl 3
+prgmEVODET
+Goto M
+Lbl 4
+prgmEVOMINOR
+Goto M
+Lbl 5
+prgmEVOADJ
+Goto M
+Lbl 6
+prgmEVOCRAM
+Goto M
+Lbl 7
+prgmEVOINVT
+Goto M
+Lbl 0

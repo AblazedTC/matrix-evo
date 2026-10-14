@@ -1,0 +1,19 @@
+# Build output (regenerate with: node tools/build.mjs --zip)
+dist/
+release/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local AI-assistant tooling
+.claude/
+skills-lock.json

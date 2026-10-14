@@ -1,0 +1,114 @@
+// EVOALG - Chapter 3 matrix algebra, page 1
+Lbl M
+Menu("MATRIX ALGEBRA 1/2","A+B",1,"A-B",2,"SCALAR K*M",3,"A*B",4,"A*X  (X = B)",5,"TRANSPOSE",6,"POWER M^K",7,"MORE...",8,"BACK",0)
+Lbl 1
+1→T:"A+B"→Str0:Goto P
+Lbl 2
+2→T:"A-B"→Str0
+Lbl P
+0→V:1→Z:prgmEVOLOAD
+"A+B AND A-B NEED"→Str1
+If ʟMXB(1)≠M or ʟMXB(2)≠N:Goto D
+max(V,ʟMXB(3))→V
+For(I,1,M)
+For(J,1,N)
+2+2((I-1)N+J)→K
+[I](I,J)→P:[J](I,J)→Q:ʟMXB(K)→R:ʟMXB(K+1)→S:T→O:prgmEVOFRAC
+P→[I](I,J):Q→[J](I,J)
+End
+End
+toString(M)+"X"+toString(N)→Str8
+prgmEVORES
+Goto M
+Lbl 3
+prgmEVOPICK
+If not(Z):Goto M
+Z→T
+0→Z
+While not(Z)
+Input "K? ",Str1
+prgmEVOENTRY
+End
+P→X:Q→Y:(Z=2)→U
+0→V:T→Z:prgmEVOLOAD
+max(V,U)→V
+For(I,1,M)
+For(J,1,N)
+[I](I,J)→P:[J](I,J)→Q:X→R:Y→S:3→O:prgmEVOFRAC
+P→[I](I,J):Q→[J](I,J)
+End
+End
+"K*"+sub("ABR",T,1)→Str0
+"K = "+Str1→Str8
+prgmEVORES
+Goto M
+Lbl 4
+0→V:1→Z:prgmEVOLOAD
+"A*B NEEDS"→Str1
+If ʟMXB(1)≠N:Goto D
+ʟMXB→ʟMXW
+prgmEVOMUL
+"A*B"→Str0
+toString(M)+"X"+toString(N)+" = (ROWS A)X(COLS B)"→Str8
+prgmEVORES
+Goto M
+Lbl 5
+0→V:1→Z:prgmEVOLOAD
+"X = B MUST BE A COLUMN,"→Str1
+If ʟMXB(1)≠N or ʟMXB(2)≠1:Goto D
+ʟMXB→ʟMXW
+prgmEVOMUL
+"A*X"→Str0
+"ENTRY I = (ROW I OF A).X"→Str8
+prgmEVORES
+Goto M
+Lbl 6
+prgmEVOPICK
+If not(Z):Goto M
+Z→T
+0→V:prgmEVOLOAD
+[I]ᵀ→[I]:[J]ᵀ→[J]
+M→K:N→M:K→N
+"TRANSPOSE OF "+sub("ABR",T,1)→Str0
+"ROWS BECOME COLUMNS"→Str8
+prgmEVORES
+Goto M
+Lbl 7
+prgmEVOPICK
+If not(Z):Goto M
+Z→T
+0→V:prgmEVOLOAD
+If M≠N:Goto S
+0→Z
+While not(Z)
+Input "K (0-99)? ",Str1
+0→X:99→Y:prgmEVOINT
+End
+"POWER "+sub("ABR",T,1)+"^"+toString(P)→Str0
+P→T
+If T=0:Then
+identity(N)→[I]:Fill(1,[J]):0→V
+End
+While T>1
+prgmEVOMUL
+T-1→T
+End
+"SQUARE "+toString(N)+"X"+toString(N)→Str8
+prgmEVORES
+Goto M
+Lbl 8
+prgmEVOALG2
+Goto M
+Lbl S
+ClrHome
+Disp "NOT SQUARE:","POWERS NEED A SQUARE","MATRIX"
+Pause
+Goto M
+Lbl D
+ClrHome
+Disp "DIMENSION MISMATCH",Str1
+Disp "A IS "+toString(ʟMXA(1))+"X"+toString(ʟMXA(2))+", B IS "+toString(ʟMXB(1))+"X"+toString(ʟMXB(2))
+Disp "SAME SIZE (A+B, A-B)","COLS A = ROWS B (A*B)"
+Pause
+Goto M
+Lbl 0

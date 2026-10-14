@@ -1,0 +1,12 @@
+// EVODETC - determinant of the square workspace (N x N) by elimination -> P/Q
+// det = (-1)^swaps x product of the REF pivots.  Destroys the workspace.
+// Preserves T Z.  Clobbers: A-F I-L O-S X Y G H U θ
+0→L:1→F:N→E:prgmEVOROW
+If U<N:Then
+0→P:1→Q
+Else
+θ→P:1→Q
+For(K,1,N)
+[I](K,K)→R:[J](K,K)→S:3→O:prgmEVOFRAC
+End
+End

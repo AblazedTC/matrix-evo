@@ -1,0 +1,24 @@
+// EVOADJ - cofactor matrix C and adjugate adj(A) = C^T
+2→X:prgmEVOSQ
+If not(Z):Return
+{N,N}→dim([G]):{N,N}→dim([H])
+For(T,1,ʟMXW(1))
+For(Z,1,ʟMXW(1))
+ClrHome
+Output(5,1,"COMPUTING C"+toString(T)+","+toString(Z)+" ...")
+prgmEVOSUBM
+prgmEVODETC
+If fPart((T+Z)/2):⁻P→P
+P→[G](T,Z):Q→[H](T,Z)
+End
+End
+ʟMXW(1)→M:M→N
+[G]→[I]:[H]→[J]
+"COFACTOR MATRIX C"→Str0
+"CIJ = (-1)^(I+J) MIJ"→Str8
+"ENTER:SHOW ADJUGATE"→Str7
+prgmEVODISP
+[G]ᵀ→[I]:[H]ᵀ→[J]
+"ADJUGATE ADJ(A) = C^T"→Str0
+"A^-1 = ADJ(A)/DET(A)"→Str8
+prgmEVORES

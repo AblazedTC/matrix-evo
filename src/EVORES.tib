@@ -1,0 +1,9 @@
+// EVORES - save the workspace as the result R (when it fits) and display it.
+// Str0 title and Str8 subtitle are set by the caller.
+If MN≤72:Then
+3→Z:prgmEVOSAVE
+"SAVED AS R   ENTER:OK"→Str7
+Else
+"ENTER:OK"→Str7
+End
+prgmEVODISP

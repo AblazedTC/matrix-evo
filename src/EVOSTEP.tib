@@ -1,0 +1,30 @@
+// EVOSTEP - browse the logged row operations (ʟMXLOG) starting from slot 4.
+// Str6 = name of the procedure. ENTER/right: next, left: back, CLEAR: skip to end.
+// On exit the workspace always holds the fully reduced matrix.
+// Preserves: E F M N U V W θ ʟMXPR.   Clobbers: A-D G-L O-T X-Z
+0→T
+4→Z:prgmEVOLOAD
+0→Z:0→L
+While not(Z)
+Str6+" STEP "+toString(T)+"/"+toString(ʟMXLOG(1))→Str0
+"START MATRIX"→Str8
+If T:prgmEVOOPS
+"ENTER:NEXT  CLEAR:SKIP"→Str7
+prgmEVODISP
+If K=45 or (K=105 and T=ʟMXLOG(1)):1→Z
+If (K=105 or K=26) and T<ʟMXLOG(1):Then
+T+1→T
+T→I:prgmEVOAPPLY
+End
+If K=24 and T>0:Then
+T-1→T
+4→Z:prgmEVOLOAD
+0→Z
+For(I,1,T)
+prgmEVOAPPLY
+End
+End
+End
+For(I,T+1,ʟMXLOG(1))
+prgmEVOAPPLY
+End

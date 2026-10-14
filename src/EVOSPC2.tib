@@ -1,0 +1,61 @@
+// EVOSPC2 - Chapter 4 subspaces, page 2: the four fundamental subspaces
+Lbl M
+Menu("SUBSPACES 2/2","COLUMN SPACE COL(A)",1,"ROW SPACE ROW(A)",2,"NULL SPACE NUL(A)",3,"LEFT NULL NUL(AT)",4,"ALL FOUR SUBSPACES",5,"RANK-NULLITY CHECK",6,"BACK",0)
+Lbl 1
+prgmEVOSPRE
+If not(Z):Goto M
+prgmEVOCOLS
+Goto M
+Lbl 2
+prgmEVOSPRE
+If not(Z):Goto M
+prgmEVOROWS
+Goto M
+Lbl 3
+prgmEVOSPRE
+If not(Z):Goto M
+prgmEVONULS
+Goto M
+Lbl 4
+prgmEVOPICK
+If not(Z):Goto M
+0→V:prgmEVOLOAD
+ʟMXW→ʟMXO
+prgmEVOTRED
+prgmEVONULS
+Goto M
+Lbl 5
+prgmEVOSPRE
+If not(Z):Goto M
+ClrHome
+Disp "A IS "+toString(M)+"X"+toString(N)+", RANK R = "+toString(U),"COL(A):  DIM "+toString(U)+" IN R^"+toString(M),"ROW(A):  DIM "+toString(U)+" IN R^"+toString(N),"NUL(A):  DIM "+toString(N-U)+" IN R^"+toString(N),"NUL(AT): DIM "+toString(M-U)+" IN R^"+toString(M),"BASES FOLLOW..."
+Pause
+prgmEVOROWS
+prgmEVONULS
+prgmEVOCOLS
+prgmEVOTRED
+prgmEVONULS
+Goto M
+Lbl 6
+prgmEVOSPRE
+If not(Z):Goto M
+0→K
+For(J,1,N)
+K+not(ʟMXPR(J))→K
+End
+{U,K}→ʟMXV
+prgmEVOTRED
+0→K
+For(J,1,N)
+K+not(ʟMXPR(J))→K
+End
+ClrHome
+ʟMXV(1)→T:ʟMXV(2)→Y
+Disp "RANK A = "+toString(T)+", NUL = "+toString(Y),toString(T)+" + "+toString(Y)+" = "+toString(T+Y)+" = N (COLS)"
+Disp "RANK AT = "+toString(U)+", NUL = "+toString(K),toString(U)+" + "+toString(K)+" = "+toString(U+K)+" = M (ROWS)"
+If T=U:Disp "ROW RANK = COLUMN RANK"
+If T+Y=M and U+K=N:Disp "RANK-NULLITY VERIFIED"
+If V:Disp "(APPROXIMATE)"
+Pause
+Goto M
+Lbl 0

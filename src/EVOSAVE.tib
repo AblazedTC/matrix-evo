@@ -1,0 +1,16 @@
+// EVOSAVE - store the workspace ([I]/[J], M x N, flag V) into slot Z (1=A 2=B 3=R 4=step start).
+// Slot lists hold {rows, cols, approx, n11, d11, n12, d12, ...} with room for 72 cells.
+// Clobbers: I J K, ʟMXW
+{M,N,V}→ʟMXW
+147→dim(ʟMXW)
+4→K
+For(I,1,M)
+For(J,1,N)
+[I](I,J)→ʟMXW(K):[J](I,J)→ʟMXW(K+1)
+K+2→K
+End
+End
+If Z=1:ʟMXW→ʟMXA
+If Z=2:ʟMXW→ʟMXB
+If Z=3:ʟMXW→ʟMXR
+If Z=4:ʟMXW→ʟMXST
