@@ -3,8 +3,8 @@
 **Exact-fraction linear algebra for the TI-84 Evo, written in native TI-BASIC.**
 
 Row reduction with step-by-step replay, matrix algebra, vectors, linear systems and
-the four fundamental subspaces, covering Chapters 1–4 of a first linear algebra course
-(47 capabilities). No Python app, no jailbreak, no network: just programs you launch
+the four fundamental subspaces, plus vector spaces and linear transformations, covering Chapters 1–6 of a first
+linear algebra course (47 core capabilities). No Python app, no jailbreak, no network: just programs you launch
 from `PRGM`.
 
 ```text
@@ -19,7 +19,7 @@ MATRIX EVO 1.0              RREF STEP 2/3
 8:EXIT
 ```
 
-> **Status: beta.** Built and tested on a computer (file-format validation plus 66
+> **Status: beta.** Built and tested on a computer (file-format validation plus 76
 > simulator tests). Running on a real TI-84 Evo has started: the `EVOTEST` device check
 > passes its six command checks. The screen, menu and key-code checks and full
 > menu testing on the device are still in progress. See
@@ -37,6 +37,11 @@ MATRIX EVO 1.0              RREF STEP 2/3
   projection, linear combinations, span membership
 - **Subspaces:** independence, span, basis extraction and test, dimension, rank & nullity,
   Col/Row/Nul/left Nul bases, all four at once, rank-nullity check, coordinates in a basis
+- **Vector spaces (Ch. 5):** Pₙ and Mₘₓₙ through coordinate vectors, matrix → [M]E,
+  columns shown as polynomials (independence, bases, [p]B reuse the subspace tools)
+- **Linear transformations (Ch. 6):** image T(x), range and kernel, onto / one-to-one /
+  invertible, image of a line, composition, standard matrices (rotation, reflection and
+  projection onto a line, dilation, shear), similarity C⁻¹AC
 - **Exact answers:** fractions such as `3/2` and `-1/2`, never guessed from decimals.
   If a number would exceed 10¹⁰, or you enter `√(2)`, the result is clearly marked
   `APPROX`.
@@ -66,7 +71,7 @@ Requires Node.js 18+ and Python 3.10+; nothing to install.
 
 ```sh
 node tools/build.mjs            # src/*.tib -> dist/*.8xp2 (+ SHA256SUMS)
-python tests/test_matrix_evo.py # 66 tests, ~15 s
+python tests/test_matrix_evo.py # 76 tests, ~15 s
 node tools/build.mjs --zip      # release/MATRIX_EVO_RELEASE.zip
 ```
 

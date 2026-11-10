@@ -1,0 +1,108 @@
+// EVOLTM - standard matrices of common transformations of R^2, saved as R
+Lbl M
+Menu("STANDARD MATRIX (R^2)","ROTATION BY θ (CCW)",1,"REFLECT: LINE ALONG D",2,"PROJECT: LINE ALONG D",3,"DILATION X TO RX",4,"SHEAR E2 TO KE1+E2",5,"BACK",0)
+Lbl 1
+ClrHome
+Disp "ROTATE BY θ","E.G. θ=90: COS 0, SIN 1","(ROOTS OK, MARKED APPROX)"
+0→Z
+While not(Z)
+Input "COS θ? ",Str1
+prgmEVOENTRY
+End
+P→X:Q→Y:(Z=2)→T
+0→Z
+While not(Z)
+Input "SIN θ? ",Str1
+prgmEVOENTRY
+End
+T or Z=2→V
+{2,2}→dim([I]):{2,2}→dim([J])
+X→[I](1,1):Y→[J](1,1):X→[I](2,2):Y→[J](2,2)
+P→[I](2,1):Q→[J](2,1):⁻P→[I](1,2):Q→[J](1,2)
+2→M:2→N
+"ROTATION BY θ"→Str0
+"[COS -SIN, SIN COS]"→Str8
+prgmEVORES
+Goto M
+Lbl 2
+1→T:Goto L
+Lbl 3
+2→T
+Lbl L
+ClrHome
+Disp "LINE THROUGH 0 ALONG","D = (D1,D2)","E.G. X2=X1: D = (1,1)"
+0→Z
+While not(Z)
+Input "D1? ",Str1
+prgmEVOENTRY
+End
+P→X:Q→Y:(Z=2)→U
+0→Z
+While not(Z)
+Input "D2? ",Str1
+prgmEVOENTRY
+End
+U or Z=2→U
+// same line through the integer direction (P1Q2, P2Q1)
+XQ→A:PY→B
+A²+B²→C
+If C=0:Then
+ClrHome
+Disp "D MUST NOT BE 0"
+Pause
+End
+If C=0:Goto M
+// ponytail: exact while |D| stays classroom-sized, approximate past 1E10
+If C≥ᴇ10:1→U
+If T=1:{A²-B²,2AB,2AB,B²-A²}→ʟMXV
+If T=2:{A²,AB,AB,B²}→ʟMXV
+{2,2}→dim([I]):{2,2}→dim([J])
+For(I,1,2)
+For(J,1,2)
+ʟMXV(2I+J-2)→P:C→Q
+If U:Then
+P/Q→P:1→Q
+Else
+If P=0:Then
+1→Q
+Else
+gcd(abs(P),Q)→G:P/G→P:Q/G→Q
+End
+End
+P→[I](I,J):Q→[J](I,J)
+End
+End
+U→V:2→M:2→N
+If T=1:"REFLECT THROUGH LINE ALONG D"→Str0
+If T=2:"PROJECT ONTO LINE ALONG D"→Str0
+If T=1:"2P-I, P = DDT/(D.D)"→Str8
+If T=2:"P = DDT/(D.D)"→Str8
+prgmEVORES
+Goto M
+Lbl 4
+1→T:Goto K
+Lbl 5
+2→T
+Lbl K
+0→Z
+While not(Z)
+If T=1:Input "R? ",Str1
+If T=2:Input "K? ",Str1
+prgmEVOENTRY
+End
+(Z=2)→V
+identity(2)→[I]
+{2,2}→dim([J]):Fill(1,[J])
+If T=1:Then
+P→[I](1,1):Q→[J](1,1):P→[I](2,2):Q→[J](2,2)
+"DILATION X TO RX"→Str0
+"R>1 DILATES, 0<R<1 CONTRACTS"→Str8
+Else
+P→[I](1,2):Q→[J](1,2)
+"SHEAR (X1+KX2, X2)"→Str0
+"E1 FIXED, E2 TO KE1+E2"→Str8
+End
+2→M:2→N
+prgmEVORES
+Goto M
+Lbl 0

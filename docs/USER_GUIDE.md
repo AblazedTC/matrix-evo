@@ -1,7 +1,7 @@
 # Matrix Evo 1.0 — User Guide
 
 Matrix Evo is a linear-algebra toolkit for the TI-84 Evo, written in native TI-BASIC.
-It covers the computational material of Chapters 1–4 of a first linear algebra
+It covers the computational material of Chapters 1–6 of a first linear algebra
 course and shows row-reduction steps one operation at a time.
 
 ## Starting
@@ -184,7 +184,26 @@ Page 1: `INDEPENDENCE` (if dependent, shows weights x with A x = 0), `SPAN`
 Page 2: `COLUMN SPACE COL(A)` (pivot columns of A), `ROW SPACE ROW(A)` (nonzero rows of
 RREF), `NULL SPACE NUL(A)`, `LEFT NULL NUL(AT)` (null space of Aᵀ), `ALL FOUR SUBSPACES`
 (dimensions, then each basis), `RANK-NULLITY CHECK` (rank A + nullity A = n and
-rank Aᵀ + nullity Aᵀ = m, computed from two independent reductions).
+rank Aᵀ + nullity Aᵀ = m, computed from two independent reductions),
+`VECTOR SPACES PN, MMN` (Chapter 5, below).
+
+### Vector spaces Pₙ and Mₘₓₙ (Chapter 5): `SUBSPACES > MORE > VECTOR SPACES`
+
+Work with coordinate vectors: p(x) = a₀ + a₁x + … + aₙxⁿ is the column (a₀, …, aₙ);
+a matrix is the column of its entries read row by row (standard basis E₁₁, E₁₂, …).
+Put one vector per column of A, then use the Subspaces tools: `INDEPENDENCE`,
+`BASIS TEST`, `COORDINATES [X]B`. Items: `HOW TO ENTER`, `MATRIX -> [M]E`
+(flattens a matrix to its coordinate vector), `COLUMNS AS POLYNOMIALS` (reads each
+column back as p(x), e.g. `P1=8-8X-2X^2`).
+
+### 8 Linear transformations (Chapter 6), T(x) = A x
+
+`IMAGE T(X)` (x = B), `RANGE AND KERNEL` (dimensions, then Nul(A) and Col(A) bases),
+`ONTO / ONE-TO-ONE` (pivot in every row / column, invertible), `IMAGE OF LINE P+TD`
+(B = [p d], result [T(p) T(d)]; a point when T(d) = 0), `COMPOSITION T(S(X))`
+(A = A_T, B = A_S, result A_T A_S), `STANDARD MATRICES R^2` (rotation from cos θ and
+sin θ, reflection or projection onto the line along d, dilation r·I, shear), and
+`SIMILAR C^-1AC` (C = B).
 
 ## Worked examples
 

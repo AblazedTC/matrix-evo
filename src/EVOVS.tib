@@ -1,0 +1,51 @@
+// EVOVS - Chapter 5 vector spaces: Pn and Mmn are worked through coordinate vectors
+Lbl M
+Menu("VECTOR SPACES PN, MMN","HOW TO ENTER PN / MMN",1,"MATRIX TO [M]E",2,"COLUMNS AS POLYNOMIALS",3,"BACK",0)
+Lbl 1
+ClrHome
+Disp "USE COORDINATE VECTORS:","P=A0+A1X+...+ANX^N","  TO COLUMN (A0,...,AN)","M=[A B, C D] (ROW BY ROW)","  TO COLUMN (A,B,C,D)","ONE COLUMN PER VECTOR, THEN","SUBSPACES: INDEPENDENCE,","BASIS TEST, COORDS [X]B"
+Pause
+Goto M
+Lbl 2
+prgmEVOPICK
+If not(Z):Goto M
+0→V:prgmEVOLOAD
+MN→M
+{M,1}→dim([I]):{M,1}→dim([J])
+For(I,1,M)
+ʟMXW(2+2I)→[I](I,1):ʟMXW(3+2I)→[J](I,1)
+End
+1→N
+"[M]E COORDINATE VECTOR"→Str0
+"BASIS E11,E12,... ROW BY ROW"→Str8
+prgmEVORES
+Goto M
+Lbl 3
+prgmEVOPICK
+If not(Z):Goto M
+0→V:prgmEVOLOAD
+ClrHome
+Disp "COLUMN J AS P(X) IN P"+toString(M-1)
+For(J,1,N)
+"P"+toString(J)+"="→Str2
+0→T
+For(I,1,M)
+If [I](I,J)≠0:Then
+[I](I,J)→P:[J](I,J)→Q:prgmEVOFMT
+If sub(Str9,1,1)="⁻":"-"+sub(Str9,2,length(Str9)-1)→Str9
+If T and P>0:"+"+Str9→Str9
+If I>1 and abs(P)=Q and P>0:"+"→Str9
+If I>1 and abs(P)=Q and P<0:"-"→Str9
+If I>1:Str9+"X"→Str9
+If I>2:Str9+"^"+toString(I-1)→Str9
+If not(T) and sub(Str9,1,1)="+":sub(Str9,2,length(Str9)-1)→Str9
+Str2+Str9→Str2:1→T
+End
+End
+If not(T):Str2+"0"→Str2
+Disp Str2
+End
+If V:Disp "(APPROXIMATE)"
+Pause
+Goto M
+Lbl 0

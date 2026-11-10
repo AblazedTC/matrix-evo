@@ -1,0 +1,108 @@
+// EVOLT - Chapter 6 linear transformations T(X) = AX, where A is the standard matrix of T
+Lbl M
+Menu("LINEAR TRANSFORMS","IMAGE T(X)  (X = B)",1,"RANGE AND KERNEL",2,"ONTO / ONE-TO-ONE",3,"IMAGE OF LINE P+TD",4,"COMPOSITION T(S(X))",5,"STANDARD MATRICES R^2",6,"SIMILAR C^-1AC (C=B)",7,"BACK",0)
+Lbl 1
+0→V:1→Z:prgmEVOLOAD
+"X = B: COLUMN, N ROWS"→Str1
+If ʟMXB(1)≠N or ʟMXB(2)≠1:Goto D
+ʟMXB→ʟMXW
+prgmEVOMUL
+"IMAGE T(X) = AX"→Str0
+"T: R^"+toString(ʟMXA(2))+" TO R^"+toString(M)→Str8
+prgmEVORES
+Goto M
+Lbl 2
+prgmEVOSPRE
+If not(Z):Goto M
+ClrHome
+Disp "T: R^"+toString(N)+" TO R^"+toString(M),"RANGE(T) = COL(A)","  DIM "+toString(U)+" IN R^"+toString(M),"KER(T) = NUL(A)","  DIM "+toString(N-U)+" IN R^"+toString(N),toString(U)+" + "+toString(N-U)+" = "+toString(N)+" = N","BASES FOLLOW..."
+If V:Disp "(APPROXIMATE)"
+Pause
+prgmEVONULS
+prgmEVOCOLS
+Goto M
+Lbl 3
+prgmEVOSPRE
+If not(Z):Goto M
+ClrHome
+Disp "T: R^"+toString(N)+" TO R^"+toString(M)+", RANK "+toString(U)
+If U=M:Disp "ONTO: PIVOT IN EVERY ROW","(RANGE = R^"+toString(M)+")"
+If U<M:Disp "NOT ONTO: A ROW HAS NO","PIVOT (DIM RANGE = "+toString(U)+")"
+If U=N:Disp "ONE-TO-ONE: PIVOT IN","EVERY COLUMN, KER = {0}"
+If U<N:Disp "NOT ONE-TO-ONE:","DIM KER = "+toString(N-U)+" (FREE VARS)"
+If U=M and U=N:Disp "INVERTIBLE: T^-1(X)=A^-1X","(ALGEBRA > INVERSE)"
+If U<M or U<N:Disp "NOT INVERTIBLE"
+If V:Disp "(APPROXIMATE)"
+Pause
+Goto M
+Lbl 4
+0→V:1→Z:prgmEVOLOAD
+"B = [P D]: N ROWS, 2 COLS"→Str1
+If ʟMXB(1)≠N or ʟMXB(2)≠2:Goto D
+ʟMXB→ʟMXW
+prgmEVOMUL
+0→K
+For(I,1,M)
+If [I](I,2)≠0:1→K
+End
+If K:Then
+"T(L): X = T(P) + T*T(D)"→Str8
+Else
+"T(D) = 0: T(L) IS A POINT"→Str8
+End
+"IMAGE OF LINE [T(P) T(D)]"→Str0
+prgmEVORES
+Goto M
+Lbl 5
+0→V:1→Z:prgmEVOLOAD
+"A = AT, B = AS: COLS A=ROWS B"→Str1
+If ʟMXB(1)≠N:Goto D
+ʟMXB→ʟMXW
+prgmEVOMUL
+"T(S(X)) MATRIX AT*AS"→Str0
+"T(S): R^"+toString(N)+" TO R^"+toString(M)→Str8
+prgmEVORES
+Goto M
+Lbl 6
+prgmEVOLTM
+Goto M
+Lbl 7
+"C = B: SQUARE, SIZE OF A"→Str1
+If ʟMXA(1)≠ʟMXA(2) or ʟMXB(1)≠ʟMXA(1) or ʟMXB(2)≠ʟMXA(1):Goto D
+0→V:2→Z:prgmEVOLOAD
+{N,2N}→dim([I]):{N,2N}→dim([J])
+For(I,1,N)
+For(J,1,N)
+(I=J)→[I](I,N+J):1→[J](I,N+J)
+End
+End
+N→E:2N→N:2→F:0→L
+prgmEVOROW
+If U<E:Then
+ClrHome
+Disp "C = B IS SINGULAR:","NO C^-1 EXISTS"
+Pause
+End
+If U<E:Goto M
+For(I,1,E)
+For(J,1,E)
+[I](I,E+J)→[I](I,J):[J](I,E+J)→[J](I,J)
+End
+End
+{E,E}→dim([I]):{E,E}→dim([J])
+E→N
+ʟMXA→ʟMXW
+prgmEVOMUL
+ʟMXB→ʟMXW
+prgmEVOMUL
+"SIMILAR: C^-1 A C"→Str0
+"C = B, SIMILAR TO A"→Str8
+prgmEVORES
+Goto M
+Lbl D
+ClrHome
+Disp "DIMENSION MISMATCH",Str1
+Disp "A IS "+toString(ʟMXA(1))+"X"+toString(ʟMXA(2))+", B IS "+toString(ʟMXB(1))+"X"+toString(ʟMXB(2))
+Pause
+Goto M
+Lbl 0

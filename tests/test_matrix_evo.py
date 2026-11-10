@@ -24,7 +24,7 @@ SRC = ROOT / "src" if (ROOT / "src").is_dir() else ROOT / "source"
 
 WARNINGS: set[str] = set()
 ENTER, CLEAR, LEFT, RIGHT, UP, DOWN = 105, 45, 24, 26, 25, 34
-MAIN = {"rowred": 1, "alg": 2, "vec": 3, "sys": 4, "sub": 5, "edit": 6, "set": 7, "exit": 8}
+MAIN = {"rowred": 1, "alg": 2, "vec": 3, "sys": 4, "sub": 5, "edit": 6, "set": 7, "lt": 8, "exit": 9}
 
 
 # ------------------------------------------------------------------ helpers
@@ -209,7 +209,7 @@ def ref_rank():
 
 @test
 def ref_null_space():
-    s = Session(A=M([1, 2], [2, 4])).run(menu(5), menu(8), menu(3), menu(1), OK, menu(7), menu(9), EXIT)
+    s = Session(A=M([1, 2], [2, 4])).run(menu(5), menu(8), menu(3), menu(1), OK, menu(8), menu(9), EXIT)
     eq(s.R, col(-2, 1))
 
 
@@ -643,36 +643,147 @@ def four_fundamental_subspaces():
     A = A4
     Rr, piv = rref(A)
     # column space
-    s = Session(A=A).run(menu(5), menu(8), menu(1), menu(1), OK, menu(7), menu(9), EXIT)
+    s = Session(A=A).run(menu(5), menu(8), menu(1), menu(1), OK, menu(8), menu(9), EXIT)
     eq(s.R, [[A[i][j] for j in piv] for i in range(3)])
     # row space
-    s = Session(A=A).run(menu(5), menu(8), menu(2), menu(1), OK, menu(7), menu(9), EXIT)
+    s = Session(A=A).run(menu(5), menu(8), menu(2), menu(1), OK, menu(8), menu(9), EXIT)
     eq(s.R, Rr[:2])
     # null space: every basis vector solves Ax = 0 and there are n - r of them
-    s = Session(A=A).run(menu(5), menu(8), menu(3), menu(1), OK, menu(7), menu(9), EXIT)
+    s = Session(A=A).run(menu(5), menu(8), menu(3), menu(1), OK, menu(8), menu(9), EXIT)
     eq(len(s.R[0]), 2)
     eq(matmul(A, s.R), [[0, 0]] * 3)
     # left null space
-    s = Session(A=A).run(menu(5), menu(8), menu(4), menu(1), OK, menu(7), menu(9), EXIT)
+    s = Session(A=A).run(menu(5), menu(8), menu(4), menu(1), OK, menu(8), menu(9), EXIT)
     eq(matmul(transpose(A), s.R), [[0]] * 4)
     eq(len(s.R[0]), 1)
     # all four in one pass
-    s = Session(A=A).run(menu(5), menu(8), menu(5), menu(1), OK, OK, OK, OK, menu(7), menu(9), EXIT)
+    s = Session(A=A).run(menu(5), menu(8), menu(5), menu(1), OK, OK, OK, OK, menu(8), menu(9), EXIT)
     s.saw("NUL(AT): DIM 1 IN R^3")
     eq(matmul(transpose(A), s.R), [[0]] * 4)
 
 
 @test
 def rank_nullity_check():
-    s = Session(A=A4).run(menu(5), menu(8), menu(6), menu(1), menu(7), menu(9), EXIT)
+    s = Session(A=A4).run(menu(5), menu(8), menu(6), menu(1), menu(8), menu(9), EXIT)
     s.saw("RANK-NULLITY VERIFIED")
     s.saw("ROW RANK = COLUMN RANK")
 
 
 @test
 def full_rank_null_space_is_zero():
-    s = Session(A=M([1, 2], [3, 4])).run(menu(5), menu(8), menu(3), menu(1), menu(7), menu(9), EXIT)
+    s = Session(A=M([1, 2], [3, 4])).run(menu(5), menu(8), menu(3), menu(1), menu(8), menu(9), EXIT)
     s.saw("NULL SPACE = {0}")
+
+
+# --- Chapter 5: vector spaces Pn, Mmn (coordinate vectors) -------------------------
+
+VS = (menu(5), menu(8), menu(7))          # SUBSPACES > MORE > VECTOR SPACES
+VS_OUT = (menu(4), menu(8), menu(9), EXIT)
+
+
+@test
+def matrix_to_coordinate_vector():
+    s = Session(A=M([2, -4], [3, 1])).run(*VS, menu(2), menu(1), OK, *VS_OUT)
+    eq(s.R, col(2, -4, 3, 1))
+
+
+@test
+def columns_as_polynomials():
+    s = Session(A=M([8, 0, -1], [-8, 1, 0], [-2, -1, 1])).run(*VS, menu(3), menu(1), *VS_OUT)
+    s.saw("P1=8-8X-2X^2")
+    s.saw("P2=X-X^2")
+    s.saw("P3=-1+X^2")
+
+
+@test
+def polynomial_coordinates_in_basis():
+    # B = {1, 1+x, 2-x-x^2}, p = 8-8x-2x^2  ->  [p]B = (10, -6, 2)
+    s = Session(A=M([1, 1, 2], [0, 1, -1], [0, 0, -1]), B=col(8, -8, -2)).run(menu(5), menu(7), OK, menu(9), EXIT)
+    eq(s.R, col(10, -6, 2))
+
+
+# --- Chapter 6: linear transformations ---------------------------------------------
+
+LT = menu(MAIN["lt"])
+LT_OUT = (menu(8), EXIT)
+STD = (LT, menu(6))
+STD_OUT = (menu(6), *LT_OUT)
+
+
+@test
+def transformation_image():
+    s = Session(A=M([0, -1], [1, 0]), B=col(-2, 1)).run(LT, menu(1), OK, *LT_OUT)
+    eq(s.R, col(-1, -2))
+
+
+@test
+def range_and_kernel():
+    A = M([2, 1, -2], [2, 3, 6])
+    s = Session(A=A).run(LT, menu(2), menu(1), OK, OK, *LT_OUT)
+    s.saw("DIM 1 IN R^3")
+    eq(s.R, M([2, 1], [2, 3]))
+
+
+@test
+def onto_one_to_one_invertible():
+    s = Session(A=M([2, 1, -2], [2, 3, 6])).run(LT, menu(3), menu(1), *LT_OUT)
+    s.saw("ONTO: PIVOT IN EVERY ROW")
+    s.saw("NOT ONE-TO-ONE:")
+    s = Session(A=M([1, 0], [0, 0])).run(LT, menu(3), menu(1), *LT_OUT)
+    s.saw("NOT ONTO")
+    s.saw("NOT INVERTIBLE")
+    s = Session(A=M([0, -1], [1, 0])).run(LT, menu(3), menu(1), *LT_OUT)
+    s.saw("INVERTIBLE: T^-1(X)=A^-1X")
+
+
+@test
+def image_of_line():
+    A = M([1, 3], [2, 6])
+    s = Session(A=A, B=M([1, -1], [1, 1])).run(LT, menu(4), OK, *LT_OUT)
+    eq(s.R, M([4, 2], [8, 4]))
+    s.saw("T(L): X = T(P) + T*T(D)")
+    s = Session(A=A, B=M([1, -3], [1, 1])).run(LT, menu(4), OK, *LT_OUT)
+    s.saw("T(L) IS A POINT")
+
+
+@test
+def composition_of_transformations():
+    AT = M([-1, 0], [3, -1], [-2, 3])
+    AS = M([2, 1, 0], [2, 1, 1])
+    s = Session(A=AT, B=AS).run(LT, menu(5), OK, *LT_OUT)
+    eq(s.R, matmul(AT, AS))
+    s.saw("T(S): R^3 TO R^3")
+
+
+@test
+def standard_matrices():
+    s = Session().run(*STD, menu(2), "1", "1", OK, *STD_OUT)
+    eq(s.R, M([0, 1], [1, 0]))
+    s = Session().run(*STD, menu(2), "2", "1", OK, *STD_OUT)
+    eq(s.R, M([F(3, 5), F(4, 5)], [F(4, 5), F(-3, 5)]))
+    s = Session().run(*STD, menu(3), "1", "1", OK, *STD_OUT)
+    eq(s.R, M([F(1, 2), F(1, 2)], [F(1, 2), F(1, 2)]))
+    s = Session().run(*STD, menu(3), "1/2", "0", OK, *STD_OUT)
+    eq(s.R, M([1, 0], [0, 0]))
+    s = Session().run(*STD, menu(1), "0", "1", OK, *STD_OUT)
+    eq(s.R, M([0, -1], [1, 0]))
+    s = Session().run(*STD, menu(1), "√(3)/2", "1/2", OK, *STD_OUT)
+    eq(s.R_approx, 1)
+    assert abs(s.R[0][1] + 0.5) < 1e-9 and abs(s.R[1][1] - 3 ** 0.5 / 2) < 1e-9, s.R
+    s = Session().run(*STD, menu(4), "2", OK, *STD_OUT)
+    eq(s.R, M([2, 0], [0, 2]))
+    s = Session().run(*STD, menu(5), "1", OK, *STD_OUT)
+    eq(s.R, M([1, 1], [0, 1]))
+
+
+@test
+def similar_matrices():
+    # projection onto x2 = x1 is similar to projection onto the x1 axis
+    P = M([F(1, 2), F(1, 2)], [F(1, 2), F(1, 2)])
+    s = Session(A=P, B=M([1, -1], [1, 1])).run(LT, menu(7), OK, *LT_OUT)
+    eq(s.R, M([1, 0], [0, 0]))
+    s = Session(A=P, B=M([1, 2], [2, 4])).run(LT, menu(7), *LT_OUT)
+    s.saw("C = B IS SINGULAR:")
 
 
 # --- editor, storage, settings ---------------------------------------------------
@@ -829,7 +940,7 @@ def fuzz_inverse_and_null_space_via_menus():
         m, k = rng.randint(1, 4), rng.randint(2, 5)
         A = rand_matrix(rng, m, k)
         r = len(rref(A)[1])
-        s = Session(A=A).run(menu(5), menu(8), menu(3), menu(1), *([OK] if r < k else []), menu(7), menu(9), EXIT)
+        s = Session(A=A).run(menu(5), menu(8), menu(3), menu(1), *([OK] if r < k else []), menu(8), menu(9), EXIT)
         if r < k:
             eq(len(s.R[0]), k - r)
             eq(matmul(A, s.R), [[0] * (k - r)] * m)
